@@ -33,6 +33,14 @@ public class WarehouseEntity  {
     protected WarehouseEntity() {
     }
 
+    public WarehouseEntity(String name, double latitude, double longitude, double capacity, boolean active) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.capacity = capacity;
+        this.active = active;
+    }
+
     public Long getId() {
         return id;
     }
