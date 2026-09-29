@@ -1,9 +1,10 @@
 name: Backend CI
+
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
-      - 'server/**'          # Only triggers when server directory changes are present
+      - 'server/**'
       - 'compose.yaml'
   pull_request:
     paths:
@@ -12,6 +13,22 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: warehouse_optimization
+          POSTGRES_USER: warehouse
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -19,6 +36,9 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+        working-directory: ./server
       - name: Run Tests with Gradle
         run: ./gradlew test
         working-directory: ./server
