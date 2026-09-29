@@ -1,4 +1,4 @@
-package com.warehouseoptimizer.warehouse_optimization;
+package com.warehouseoptimizer.warehouse_optimization_app;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

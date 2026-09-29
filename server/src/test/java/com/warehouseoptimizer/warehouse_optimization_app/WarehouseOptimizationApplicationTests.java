@@ -1,4 +1,4 @@
-package com.warehouseoptimizer.warehouse_optimization;
+package com.warehouseoptimizer.warehouse_optimization_app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -18,7 +18,11 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
+<<<<<<< HEAD
           distribution: ''
+=======
+          distribution: 'temurin'
+>>>>>>> 7ce404f1dc969c569f3969df4d273694f32c44ba
       - name: Run Tests with Gradle
         run: ./gradlew test
         working-directory: ./server
