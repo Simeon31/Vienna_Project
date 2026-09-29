@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
+          distribution: ''
       - name: Run Tests with Gradle
         run: ./gradlew test
         working-directory: ./server
