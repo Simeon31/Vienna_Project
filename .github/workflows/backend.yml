@@ -1,9 +1,10 @@
 name: Backend CI
+
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
-      - 'server/**'          # Only triggers when server directory changes are present
+      - 'server/**'
       - 'compose.yaml'
   pull_request:
     paths:
@@ -19,6 +20,9 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+        working-directory: ./server
       - name: Run Tests with Gradle
         run: ./gradlew test
         working-directory: ./server
