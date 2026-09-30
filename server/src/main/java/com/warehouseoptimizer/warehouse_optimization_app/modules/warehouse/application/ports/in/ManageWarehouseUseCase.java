@@ -7,7 +7,7 @@ import java.util.List;
 /** Input port: what the warehouse management use case offers. */
 public interface ManageWarehouseUseCase {
 
-    Warehouse createWarehouse(String name, double latitude, double longitude, double capacity);
+    Warehouse createWarehouse(String name, String address, double latitude, double longitude, double capacity);
 
     List<Warehouse> getAllWarehouses();
 
@@ -15,5 +15,5 @@ public interface ManageWarehouseUseCase {
 
     Warehouse deactivateWarehouse(Long id);
 
-    Warehouse updateWarehouse(Long id, String name, double latitude, double longitude, double capacity);
+    Warehouse updateWarehouse(Long id, String name, String address, double latitude, double longitude, double capacity);
 }

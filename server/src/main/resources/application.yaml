@@ -1,12 +1,14 @@
 spring:
   application:
     name: Warehouse_Optimization
+  config:
+    import: optional:configtree:/run/secrets/
   profiles:
     default: dev
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/warehouse_optimization}
-    username: ${SPRING_DATASOURCE_USERNAME:warehouse}
-    password: ${SPRING_DATASOURCE_PASSWORD:secret}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://warehouse-postgressql.postgres.database.azure.com:5432/postgres?sslmode=require}
+    username: ${SPRING_DATASOURCE_USERNAME:super_admin}
+    password: ${db_password:${SPRING_DATASOURCE_PASSWORD:secret}}
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false

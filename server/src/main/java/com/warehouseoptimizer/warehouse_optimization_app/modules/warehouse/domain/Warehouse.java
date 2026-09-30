@@ -4,14 +4,18 @@ public final class Warehouse {
 
     private final Long id;
     private final String name;
+    private final String address;
     private final double latitude;
     private final double longitude;
     private final double capacity;
     private final boolean active;
 
-    public Warehouse(Long id, String name, double latitude, double longitude, double capacity, boolean active) {
+    public Warehouse(Long id, String name, String address, double latitude, double longitude, double capacity, boolean active) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Warehouse name is required");
+        }
+        if (address == null || address.isBlank()) {
+            throw new IllegalArgumentException("Warehouse address is required");
         }
         if (capacity <= 0) {
             throw new IllegalArgumentException("Capacity must be greater than 0");
@@ -24,6 +28,7 @@ public final class Warehouse {
         }
         this.id = id;
         this.name = name;
+        this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.capacity = capacity;
@@ -36,6 +41,10 @@ public final class Warehouse {
 
     public String name() {
         return name;
+    }
+
+    public String address() {
+        return address;
     }
 
     public double latitude() {

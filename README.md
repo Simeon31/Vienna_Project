@@ -57,9 +57,9 @@ The backend is configured for PostgreSQL with Flyway migrations:
 
 Default environment variables:
 
-- `SPRING_DATASOURCE_URL` (default `jdbc:postgresql://localhost:5432/warehouse_optimization`)
-- `SPRING_DATASOURCE_USERNAME` (default `warehouse`)
-- `SPRING_DATASOURCE_PASSWORD` (default `warehouse`)
+- `SPRING_DATASOURCE_URL` (default `jdbc:postgresql://warehouse-postgressql.postgres.database.azure.com:5432/postgres?sslmode=require`)
+- `SPRING_DATASOURCE_USERNAME` (default `super_admin`)
+- `SPRING_DATASOURCE_PASSWORD` (default value from `secrets/db_password`)
 - `SPRING_PROFILES_ACTIVE` (`dev` by default, `prod` in compose)
 - `APP_CORS_ALLOWED_ORIGINS` (default `http://localhost:3000`)
 
@@ -70,18 +70,23 @@ Default environment variables:
 From project root:
 
 ```bash
+mkdir -p secrets
+printf 'secret\n' > secrets/db_password
 docker compose up --build
 ```
+
+The Spring container reads the hosted PostgreSQL password from
+`secrets/db_password`. This file is ignored by Git and must be created locally
+before starting Compose.
 
 Services:
 
 - Client: `http://localhost:3000`
 - Server: `http://localhost:8080`
-- PostgreSQL: `localhost:5432`
-
 ### Option 2: Local development workflow
 
-1. Start PostgreSQL and create credentials matching your environment variables.
+1. Ensure the hosted PostgreSQL database is reachable and the credentials match
+   your environment variables.
 2. Run backend from `server`.
 3. Run frontend from `client` (`npm run dev`).
 

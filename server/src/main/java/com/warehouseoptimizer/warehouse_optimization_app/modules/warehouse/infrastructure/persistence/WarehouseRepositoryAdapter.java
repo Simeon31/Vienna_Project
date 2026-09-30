@@ -36,9 +36,15 @@ public class WarehouseRepositoryAdapter implements WarehouseRepository {
         return jpaRepository.findById(id).map(this::toDomain);
     }
 
+    @Override
+    public Optional<Warehouse> findByIdForUpdate(Long id) {
+        return jpaRepository.findByIdForUpdate(id).map(this::toDomain);
+    }
+
     private WarehouseEntity toEntity(Warehouse warehouse) {
         WarehouseEntity entity = new WarehouseEntity(
                 warehouse.name(),
+                warehouse.address(),
                 warehouse.latitude(),
                 warehouse.longitude(),
                 warehouse.capacity(),
@@ -53,6 +59,7 @@ public class WarehouseRepositoryAdapter implements WarehouseRepository {
         return new Warehouse(
                 entity.getId(),
                 entity.getName(),
+                entity.getAddress(),
                 entity.getLatitude(),
                 entity.getLongitude(),
                 entity.getCapacity(),

@@ -18,6 +18,9 @@ public class WarehouseEntity  {
     @Column(name = "name", nullable = false, length = 128)
     private String name;
 
+    @Column(name = "address", nullable = false, length = 255)
+    private String address;
+
     @Column(name = "latitude", nullable = false)
     private double latitude;
 
@@ -33,8 +36,9 @@ public class WarehouseEntity  {
     protected WarehouseEntity() {
     }
 
-    public WarehouseEntity(String name, double latitude, double longitude, double capacity, boolean active) {
+    public WarehouseEntity(String name, String address, double latitude, double longitude, double capacity, boolean active) {
         this.name = name;
+        this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.capacity = capacity;
@@ -51,6 +55,10 @@ public class WarehouseEntity  {
 
     public String getName() {
         return name;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public double getLatitude() {

@@ -3,6 +3,7 @@ package com.warehouseoptimizer.warehouse_optimization_app.modules.warehouse.infr
 import com.warehouseoptimizer.warehouse_optimization_app.modules.warehouse.application.ports.in.ManageWarehouseUseCase;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.warehouse.domain.Warehouse;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.warehouse.domain.WarehouseNotFoundException;
+import com.warehouseoptimizer.warehouse_optimization_app.modules.warehouse.domain.WarehouseHasActiveShipmentException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class ManageWarehouseUseCaseAdapter {
     public ResponseEntity<WarehouseResponse> createWarehouse(@RequestBody CreateWarehouseRequest request) {
         Warehouse created = manageWarehouseUseCase.createWarehouse(
                 request.name(),
+                request.address(),
                 request.latitude(),
                 request.longitude(),
                 request.capacity());
@@ -52,6 +54,7 @@ public class ManageWarehouseUseCaseAdapter {
         return new WarehouseResponse(
                 warehouse.id(),
                 warehouse.name(),
+                warehouse.address(),
                 warehouse.latitude(),
                 warehouse.longitude(),
                 warehouse.capacity(),
@@ -60,6 +63,7 @@ public class ManageWarehouseUseCaseAdapter {
 
     public record CreateWarehouseRequest(
             String name,
+            String address,
             double latitude,
             double longitude,
             double capacity) {
@@ -68,6 +72,7 @@ public class ManageWarehouseUseCaseAdapter {
     public record WarehouseResponse(
             Long id,
             String name,
+            String address,
             double latitude,
             double longitude,
             double capacity,
@@ -95,14 +100,21 @@ public class ManageWarehouseUseCaseAdapter {
         Warehouse updated = manageWarehouseUseCase.updateWarehouse(
                 id,
                 request.name(),
+                request.address(),
                 request.latitude(),
                 request.longitude(),
                 request.capacity());
         return ResponseEntity.ok(toResponse(updated));
     }
 
+    @ExceptionHandler(WarehouseHasActiveShipmentException.class)
+    public ResponseEntity<String> handleActiveShipment(WarehouseHasActiveShipmentException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
     public record UpdateWarehouseRequest(
             String name,
+            String address,
             double latitude,
             double longitude,
             double capacity) {
