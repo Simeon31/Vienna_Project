@@ -62,4 +62,7 @@ application.yaml
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Local Docker development secrets
+/secrets/db_password
 >>>>>>> f73e87ceb7a905ae6f57b9d01fa67fd8103fbd6a
