@@ -1,9 +1,9 @@
 plugins {
     id 'java'
+    id 'application'
     id 'war'
     id 'org.springframework.boot' version '4.1.1'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.hibernate.orm' version '7.4.5.Final'
     id 'org.graalvm.buildtools.native' version '1.1.8'
     id 'org.asciidoctor.jvm.convert' version '4.0.5'
 }
@@ -11,6 +11,10 @@ plugins {
 group = 'com.warehouse-optimizer'
 version = '0.0.1-SNAPSHOT'
 description = 'Warehouse_Optimization'
+
+application {
+    mainClass = 'com.warehouseoptimizer.warehouse_optimization_app.WarehouseOptimizationApplication'
+}
 
 java {
     toolchain {
@@ -60,11 +64,6 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.modulith:spring-modulith-bom:${springModulithVersion}"
-    }
-}
-
-hibernate {
-    enhancement {
     }
 }
 

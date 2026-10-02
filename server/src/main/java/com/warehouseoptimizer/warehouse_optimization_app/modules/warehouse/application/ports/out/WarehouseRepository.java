@@ -13,4 +13,6 @@ public interface WarehouseRepository {
     List<Warehouse> findAll();
 
     Optional<Warehouse> findById(Long id);
+
+    Optional<Warehouse> findByIdForUpdate(Long id);
 }
