@@ -1,0 +1,10 @@
+.layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: 100vh;
+}
+
+.content {
+    min-width: 0;
+    padding: var(--space-6) var(--space-8);
+}

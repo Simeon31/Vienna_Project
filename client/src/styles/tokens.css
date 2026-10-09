@@ -8,6 +8,14 @@
     --color-primary: #111111;
     --color-primary-text: #ffffff;
 
+    /* Sidebar */
+    --color-sidebar: #111111;
+    --color-sidebar-text: #ffffff;
+    --color-sidebar-muted: #9a9a9a;
+    --color-sidebar-hover: #1f1f1f;
+    --color-sidebar-active: #2a2a2a;
+    --sidebar-width: 220px;
+
     /* Spacing */
     --space-1: 0.25rem;
     --space-2: 0.5rem;
