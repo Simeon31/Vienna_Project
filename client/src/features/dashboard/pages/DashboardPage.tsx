@@ -1,8 +1,10 @@
+import PageHeader from '../../../components/ui/PageHeader';
+
 export default function DashboardPage() {
     return (
-        <>
-            <h1>Dashboard Overview</h1>
-            <p>Administration and warehouse monitoring</p>
-        </>
+        <PageHeader
+            title="Dashboard Overview"
+            subtitle="Administration and warehouse monitoring"
+        />
     );
 }
