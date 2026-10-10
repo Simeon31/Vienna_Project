@@ -6,5 +6,5 @@ import java.util.Optional;
 
 /** Output port: the storage capability needed by the use case. */
 public interface InventoryRepository {
-    Optional<InventoryItem> findBySkuAndWarehouseId(String sku, String warehouseId);
+    Optional<InventoryItem> findByProductIdAndWarehouseId(Long productId, String warehouseId);
 }

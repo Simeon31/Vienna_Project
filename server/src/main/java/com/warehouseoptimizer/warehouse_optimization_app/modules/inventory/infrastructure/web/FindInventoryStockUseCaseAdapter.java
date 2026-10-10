@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Demonstration HTTP adapter; delegates all stock work to the input port. */
+/** HTTP adapter; delegates all stock work to the input port. */
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/api/inventory")
 public class FindInventoryStockUseCaseAdapter {
 
     private final FindInventoryStockUseCase findInventoryStockUseCase;
@@ -19,10 +19,10 @@ public class FindInventoryStockUseCaseAdapter {
         this.findInventoryStockUseCase = findInventoryStockUseCase;
     }
 
-    @GetMapping("/warehouses/{warehouseId}/items/{sku}")
+    @GetMapping("/warehouses/{warehouseId}/products/{productId}")
     public ResponseEntity<StockView> findStock(
             @PathVariable("warehouseId") String warehouseId,
-            @PathVariable("sku") String sku) {
-        return ResponseEntity.of(findInventoryStockUseCase.findStock(sku, warehouseId));
+            @PathVariable("productId") Long productId) {
+        return ResponseEntity.of(findInventoryStockUseCase.findStock(productId, warehouseId));
     }
 }
