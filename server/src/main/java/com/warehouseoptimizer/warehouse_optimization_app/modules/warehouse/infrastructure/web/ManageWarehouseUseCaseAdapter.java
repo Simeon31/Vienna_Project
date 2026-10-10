@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @RestController
-@RequestMapping("/warehouses")
+@RequestMapping("/api/warehouses")
 public class ManageWarehouseUseCaseAdapter {
 
     private final ManageWarehouseUseCase manageWarehouseUseCase;
