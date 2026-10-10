@@ -25,4 +25,4 @@ services:
 
 secrets:
   db_password:
-    file: ./secrets/db_password
+    file: ./server/secrets/db_password
