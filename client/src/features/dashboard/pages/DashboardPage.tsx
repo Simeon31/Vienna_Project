@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PageHeader from '../../../components/ui/PageHeader';
 import StatCard from '../../../components/ui/StatCard';
+import Card from '../../../components/ui/Card';
 import { getDashboardStats } from '../api/dashboardApi';
 import type { DashboardStats } from '../types';
 import styles from './DashboardPage.module.css';
@@ -65,6 +66,32 @@ export default function DashboardPage() {
                     hint="At or above 75% committed"
                 />
             </section>
+            <div className={styles.panels}>
+                <Card
+                    title="Warehouse Capacity"
+                    subtitle="Committed capacity across monitored locations"
+                >
+                    <p>Coming soon</p>
+                </Card>
+
+                <Card
+                    title="Account Distribution"
+                    subtitle="All registered Manager and Employee accounts"
+                >
+                    <p>Coming soon</p>
+                </Card>
+
+                <Card
+                    title="Capacity Alerts"
+                    subtitle="Locations at or above the 75% warning threshold"
+                >
+                    <p>Coming soon</p>
+                </Card>
+
+                <Card title="Quick Actions">
+                    <p>Coming soon</p>
+                </Card>
+            </div>
         </>
     );
 }
