@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Demonstration HTTP adapter; delegates all stock work to the input port. */
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/api/inventory")
 public class FindInventoryStockUseCaseAdapter {
 
     private final FindInventoryStockUseCase findInventoryStockUseCase;
