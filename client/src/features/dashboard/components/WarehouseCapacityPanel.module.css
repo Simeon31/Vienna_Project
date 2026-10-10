@@ -1,0 +1,82 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Mobile: name on top, bar with percent and badge below */
+.row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+    'info info info'
+    'bar percent badge';
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+}
+
+/* Wider screens: everything in one line */
+@media (min-width: 640px) {
+    .row {
+        grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) 3rem 5.5rem;
+        grid-template-areas: 'info bar percent badge';
+    }
+}
+
+.info {
+    grid-area: info;
+    min-width: 0;
+}
+
+.name,
+.location {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.name {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.location {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.bar {
+    grid-area: bar;
+    min-width: 0;
+}
+
+.percent {
+    grid-area: percent;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.badge {
+    grid-area: badge;
+}
+
+.message {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.link {
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.link:hover {
+    text-decoration: underline;
+}

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import PageHeader from '../../../components/ui/PageHeader';
 import StatCard from '../../../components/ui/StatCard';
 import Card from '../../../components/ui/Card';
-import ProgressBar from '../../../components/ui/ProgressBar';
-import Badge from '../../../components/ui/Badge';
+import WarehouseCapacityPanel from '../components/WarehouseCapacityPanel';
 import { getDashboardStats } from '../api/dashboardApi';
 import type { DashboardStats } from '../types';
 import styles from './DashboardPage.module.css';
@@ -69,16 +68,7 @@ export default function DashboardPage() {
                 />
             </section>
             <div className={styles.panels}>
-                <Card
-                    title="Warehouse Capacity"
-                    subtitle="Committed capacity across monitored locations"
-                >
-                    <ProgressBar label="Test capacity" primary={60} secondary={15} />
-                    <p>
-                        <Badge variant="danger">Critical</Badge> <Badge variant="warning">Warning</Badge>{' '}
-                        <Badge variant="neutral">Normal</Badge> <Badge variant="success">Active</Badge>
-                    </p>
-                </Card>
+                <WarehouseCapacityPanel />
 
                 <Card
                     title="Account Distribution"
