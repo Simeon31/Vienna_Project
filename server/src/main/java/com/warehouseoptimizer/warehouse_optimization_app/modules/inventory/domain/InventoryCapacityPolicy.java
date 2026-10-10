@@ -4,11 +4,11 @@ import java.util.Collection;
 
 public final class InventoryCapacityPolicy {
 
-    public boolean fits(WarehouseCapacity warehouseCapacity, Collection<ProductDemand> productDemands) {
-        if (warehouseCapacity == null) {
-            throw new IllegalArgumentException("Warehouse capacity is required");
+    public boolean fits(StoreCapacity storeCapacity, Collection<ProductDemand> productDemands) {
+        if (storeCapacity == null) {
+            throw new IllegalArgumentException("Store capacity is required");
         }
-        return requiredVolumeM3(productDemands) <= warehouseCapacity.volumeM3();
+        return requiredVolumeM3(productDemands) <= storeCapacity.volumeM3();
     }
 
     public double requiredVolumeM3(Collection<ProductDemand> productDemands) {

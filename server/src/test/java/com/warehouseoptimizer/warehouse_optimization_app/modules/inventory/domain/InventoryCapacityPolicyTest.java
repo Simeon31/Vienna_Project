@@ -15,28 +15,28 @@ class InventoryCapacityPolicyTest {
     private final InventoryCapacityPolicy policy = new InventoryCapacityPolicy();
 
     @Test
-    void acceptsProductsWithinWarehouseCapacity() {
-        WarehouseCapacity warehouse = warehouseWithCapacity(1.01);
+    void acceptsProductsWithinStoreCapacity() {
+        StoreCapacity store = storeWithCapacity(1.01);
         ProductDemand productDemand = productDemand(10, 10, 10, 1000);
 
-        assertTrue(policy.fits(warehouse, List.of(productDemand)));
+        assertTrue(policy.fits(store, List.of(productDemand)));
     }
 
     @Test
-    void rejectsProductsExceedingWarehouseCapacity() {
-        WarehouseCapacity warehouse = warehouseWithCapacity(0.99);
+    void rejectsProductsExceedingStoreCapacity() {
+        StoreCapacity store = storeWithCapacity(0.99);
         ProductDemand productDemand = productDemand(10, 10, 10, 1000);
 
-        assertFalse(policy.fits(warehouse, List.of(productDemand)));
+        assertFalse(policy.fits(store, List.of(productDemand)));
     }
 
     @Test
-    void evaluatesTheCombinedVolumeOfAllProducts() {
-        WarehouseCapacity warehouse = warehouseWithCapacity(1.49);
+    void evaluatesTheCombinedVolumeOfAllProductsAgainstStoreCapacity() {
+        StoreCapacity store = storeWithCapacity(1.49);
         ProductDemand first = productDemand(10, 10, 10, 1000);
         ProductDemand second = productDemand(10, 10, 10, 500);
 
-        assertFalse(policy.fits(warehouse, List.of(first, second)));
+        assertFalse(policy.fits(store, List.of(first, second)));
     }
 
     @Test
@@ -64,7 +64,7 @@ class InventoryCapacityPolicyTest {
         return new ProductDemand(product, new Demand(demandUnits));
     }
 
-    private WarehouseCapacity warehouseWithCapacity(double capacity) {
-        return new WarehouseCapacity(capacity);
+    private StoreCapacity storeWithCapacity(double capacity) {
+        return new StoreCapacity(capacity);
     }
 }
