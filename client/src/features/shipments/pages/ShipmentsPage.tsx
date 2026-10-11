@@ -1,19 +1,17 @@
 
 import PageHeader from '../../../components/ui/PageHeader';
 import ShipmentTable from '../components/ShipmentTable';
-import type { Shipment } from '../types';
+import type { ShipmentView } from '../types';
 
 export default function ShipmentsPage() {
-
-    const shipments: Shipment[] = [
+    const shipments: ShipmentView[] = [
         {
             id: 1,
-            warehouseId: 5,
+            shipmentName: 'Electronics Restock',
+            warehouseName: 'Amsterdam North',
             orderStatus: 'PENDING',
-            expectedArrival: '2026-10-12T14:30:00',
-            createdAt: '2026-10-10T10:00:00'
-        },
-
+            expectedArrival: '2026-10-12T14:30:00'
+        }
     ];
 
     return (
