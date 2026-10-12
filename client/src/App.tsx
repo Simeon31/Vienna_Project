@@ -14,7 +14,6 @@ export default function App() {
             <Route path="warehouses" element={<WarehousesPage />} />
             <Route path="inventory" element={<StorePage />} />
               <Route path="shipments" element={<ShipmentsPage />} />
-            <Route path="inventory" element={<h1>Inventory</h1>} />
             <Route path="*" element={<h1>Page not found</h1>} />
           </Route>
         </Routes>
