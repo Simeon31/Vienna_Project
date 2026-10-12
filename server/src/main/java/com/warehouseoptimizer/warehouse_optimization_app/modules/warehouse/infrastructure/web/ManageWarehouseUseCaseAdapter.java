@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @RestController
-@RequestMapping("/warehouses")
+@RequestMapping("/api/warehouses")
 public class ManageWarehouseUseCaseAdapter {
 
     private final ManageWarehouseUseCase manageWarehouseUseCase;
@@ -20,14 +20,14 @@ public class ManageWarehouseUseCaseAdapter {
         this.manageWarehouseUseCase = manageWarehouseUseCase;
     }
 
-    @GetMapping
+    @GetMapping("/view")
     public List<WarehouseResponse> getAllWarehouses() {
         return manageWarehouseUseCase.getAllWarehouses().stream()
                 .map(this::toResponse)
                 .toList();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<WarehouseResponse> createWarehouse(@RequestBody CreateWarehouseRequest request) {
         Warehouse created = manageWarehouseUseCase.createWarehouse(
                 request.name(),

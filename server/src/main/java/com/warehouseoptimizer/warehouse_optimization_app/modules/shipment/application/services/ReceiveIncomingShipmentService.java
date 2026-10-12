@@ -4,11 +4,9 @@ import com.warehouseoptimizer.warehouse_optimization_app.modules.shipment.applic
 import com.warehouseoptimizer.warehouse_optimization_app.modules.shipment.application.ports.in.ReceiveIncomingShipmentUseCase;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.shipment.application.ports.out.ShipmentRepository;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.shipment.domain.Shipment;
+import org.springframework.stereotype.Service;
 
-/**
- * Application service contract for receiving incoming shipments.
- *
- */
+@Service
 public class ReceiveIncomingShipmentService implements ReceiveIncomingShipmentUseCase {
 
     private final CheckStockUseCase checkStockUseCase;
@@ -17,6 +15,7 @@ public class ReceiveIncomingShipmentService implements ReceiveIncomingShipmentUs
     public ReceiveIncomingShipmentService(
             CheckStockUseCase checkStockUseCase,
             ShipmentRepository shipmentRepository) {
+
         this.checkStockUseCase = checkStockUseCase;
         this.shipmentRepository = shipmentRepository;
     }

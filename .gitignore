@@ -65,4 +65,9 @@ replay_pid*
 
 # Local Docker development secrets
 /secrets/db_password
+<<<<<<< HEAD
 
+=======
+/server/secrets/db_password
+>>>>>>> f73e87ceb7a905ae6f57b9d01fa67fd8103fbd6a
+>>>>>>> origin/feature/front-end-inventory
