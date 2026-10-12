@@ -1,5 +1,6 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import PageHeader from '../../../components/ui/PageHeader';
+import Button from '../../../components/ui/Button';
 import type { Store } from '../types';
 import styles from './StorePage.module.css';
 
@@ -154,11 +155,7 @@ export default function StorePage() {
             <PageHeader
                 title="Store Management"
                 subtitle="Add and manage store locations."
-                actions={
-                    <button className={styles.primaryButton} type="button" onClick={openCreateForm}>
-                        + New store
-                    </button>
-                }
+                actions={<Button onClick={openCreateForm}>+ New store</Button>}
             />
 
             <section className={styles.tableCard} aria-labelledby="store-list-title">
@@ -211,24 +208,22 @@ export default function StorePage() {
                                     <td>{store.capacity.toLocaleString()}</td>
                                     <td>
                                         <div className={styles.actions}>
-                                            <button
-                                                className={styles.textButton}
-                                                type="button"
+                                            <Button
+                                                variant="text"
                                                 onClick={() => {
                                                     setSelectedStore(store);
                                                     setStoreModalMode('viewing');
                                                 }}
                                             >
                                                 View
-                                            </button>
+                                            </Button>
                                             {!store.deleted && (
-                                                <button className={styles.textButton} type="button" onClick={() => startEditing(store)}>
+                                                <Button variant="text" onClick={() => startEditing(store)}>
                                                     Edit
-                                                </button>
+                                                </Button>
                                             )}
-                                            <button
-                                                className={styles.dangerButton}
-                                                type="button"
+                                            <Button
+                                                variant="text"
                                                 onClick={() =>
                                                     store.deleted
                                                         ? restoreStore(store.id)
@@ -236,7 +231,7 @@ export default function StorePage() {
                                                 }
                                             >
                                                 {store.deleted ? 'Restore' : 'Delete'}
-                                            </button>
+                                            </Button>
                                         </div>
                                     </td>
                                 </tr>
@@ -346,12 +341,12 @@ export default function StorePage() {
                                 />
                             </label>
                                 <div className={styles.modalActions}>
-                                    <button className={styles.secondaryButton} type="button" onClick={resetForm}>
+                                    <Button variant="secondary" onClick={resetForm}>
                                         Cancel
-                                    </button>
-                                    <button className={styles.primaryButton} type="submit">
+                                    </Button>
+                                    <Button type="submit">
                                         {editingId === null ? 'Add store' : 'Save changes'}
-                                    </button>
+                                    </Button>
                                 </div>
                             </form>
                         )}
@@ -386,12 +381,12 @@ export default function StorePage() {
                             </button>
                         </div>
                         <div className={styles.modalActions}>
-                            <button className={styles.secondaryButton} type="button" onClick={() => setDeletingStore(null)}>
+                            <Button variant="secondary" onClick={() => setDeletingStore(null)}>
                                 Cancel
-                            </button>
-                            <button className={styles.confirmDeleteButton} type="button" onClick={confirmDelete}>
+                            </Button>
+                            <Button variant="danger" onClick={confirmDelete}>
                                 Delete store
-                            </button>
+                            </Button>
                         </div>
                     </section>
                 </div>
