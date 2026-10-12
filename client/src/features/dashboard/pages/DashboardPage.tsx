@@ -4,6 +4,7 @@ import StatCard from '../../../components/ui/StatCard';
 import Card from '../../../components/ui/Card';
 import WarehouseCapacityPanel from '../components/WarehouseCapacityPanel';
 import CapacityAlertsPanel from '../components/CapacityAlertsPanel';
+import QuickActionsPanel from '../components/QuickActionsPanel';
 import { getDashboardStats } from '../api/dashboardApi';
 import type { DashboardStats } from '../types';
 import styles from './DashboardPage.module.css';
@@ -80,9 +81,7 @@ export default function DashboardPage() {
 
                 <CapacityAlertsPanel />
 
-                <Card title="Quick Actions">
-                    <p>Coming soon</p>
-                </Card>
+                <QuickActionsPanel />
             </div>
         </>
     );
