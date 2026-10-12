@@ -7,3 +7,8 @@ export interface Warehouse {
     capacity: number;
     active: boolean;
 }
+
+export interface WarehouseUtilization {
+    occupiedPercent: number;
+    reservedPercent: number;
+}

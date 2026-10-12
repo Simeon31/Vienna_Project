@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Card from '../../../components/ui/Card';
 import Badge from '../../../components/ui/Badge';
 import ButtonLink from '../../../components/ui/ButtonLink';
-import { WARNING_THRESHOLD, getCapacityStatus } from '../../warehouses/capacity';
+import { WARNING_THRESHOLD, getCapacityStatus, getCommittedPercent } from '../../warehouses/capacity';
 import { getWarehouseCapacities } from '../api/dashboardApi';
 import type { WarehouseCapacity } from '../types';
 import styles from './CapacityAlertsPanel.module.css';
@@ -19,7 +19,7 @@ export default function CapacityAlertsPanel() {
                 if (!ignore) {
                     setAlerts(
                         data.filter(
-                            (item) => item.occupiedPercent + item.reservedPercent >= WARNING_THRESHOLD,
+                            (item) => getCommittedPercent(item) >= WARNING_THRESHOLD,
                         ),
                     );
                 }
@@ -53,7 +53,7 @@ export default function CapacityAlertsPanel() {
             {alerts && alerts.length > 0 && (
                 <ul className={styles.list}>
                     {alerts.map((item) => {
-                        const committed = Math.round(item.occupiedPercent + item.reservedPercent);
+                        const committed = Math.round(getCommittedPercent(item));
                         const status = getCapacityStatus(committed);
 
                         return (
