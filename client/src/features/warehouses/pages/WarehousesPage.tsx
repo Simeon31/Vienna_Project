@@ -3,8 +3,9 @@ import PageHeader from '../../../components/ui/PageHeader';
 import StatCard from '../../../components/ui/StatCard';
 import Card from '../../../components/ui/Card';
 import ButtonLink from '../../../components/ui/ButtonLink';
+import WarehouseTable from '../components/WarehouseTable';
 import { getWarehouses } from '../api/warehousesApi';
-import { WARNING_THRESHOLD, isNearCapacity } from '../capacity';
+import { CRITICAL_THRESHOLD, WARNING_THRESHOLD, isNearCapacity } from '../capacity';
 import type { Warehouse } from '../types';
 import styles from './WarehousesPage.module.css';
 
@@ -74,16 +75,24 @@ export default function WarehousesPage() {
                 />
             </section>
 
-            <Card title="Warehouses" subtitle="All registered warehouses">
+            <Card
+                title="Warehouses"
+                subtitle="All registered warehouses"
+                footer={
+                    <>
+            <span>
+              Committed = occupied + reserved incoming · Normal below {WARNING_THRESHOLD}% ·
+              Warning {WARNING_THRESHOLD}–{CRITICAL_THRESHOLD - 1}% · Critical{' '}
+                {CRITICAL_THRESHOLD}% or above
+            </span><span>Sample data</span></>
+            }>
                 {!error && !warehouses && <p className={styles.message}>Loading…</p>}
 
                 {warehouses && warehouses.length === 0 && (
                     <p className={styles.message}>No warehouses yet. Add the first one.</p>
                 )}
 
-                {warehouses && warehouses.length > 0 && (
-                    <p className={styles.message}>{warehouses.length} warehouses loaded.</p>
-                )}
+                {warehouses && warehouses.length > 0 && <WarehouseTable warehouses={warehouses} />}
             </Card>
         </>
     );

@@ -1,0 +1,37 @@
+.name {
+    font-weight: 600;
+}
+
+.location {
+    color: var(--color-text-muted);
+}
+
+.number {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.committed {
+    display: grid;
+    grid-template-columns: minmax(6rem, 1fr) 2.75rem auto;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 15rem;
+}
+
+.percent {
+    font-weight: 600;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    white-space: nowrap;
+}
+
+.inactive td {
+    color: var(--color-text-muted);
+}

@@ -20,3 +20,16 @@ h1, h2, h3, p {
     outline: 2px solid currentColor;
     outline-offset: 2px;
 }
+
+/* Hides content visually but keeps it readable for screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
