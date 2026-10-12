@@ -32,6 +32,10 @@
     --color-neutral-bg: #e6e6e6;
     --color-neutral-text: #111111;
 
+    /* Charts */
+    --color-chart-1: #333333;
+    --color-chart-2: #9a9a9a;
+
     /* Spacing */
     --space-1: 0.25rem;
     --space-2: 0.5rem;
