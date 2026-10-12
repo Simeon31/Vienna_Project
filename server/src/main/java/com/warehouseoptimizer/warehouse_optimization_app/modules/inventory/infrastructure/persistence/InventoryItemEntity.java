@@ -15,11 +15,14 @@ public class InventoryItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sku", nullable = false, length = 64)
-    private String sku;
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
 
     @Column(name = "warehouse_id", nullable = false, length = 64)
     private String warehouseId;
+
+    @Column(name = "demand_in_units", nullable = false)
+    private Float demandInUnits;
 
     @Column(name = "on_hand", nullable = false)
     private int onHand;
@@ -30,12 +33,16 @@ public class InventoryItemEntity {
     protected InventoryItemEntity() {
     }
 
-    public String getSku() {
-        return sku;
+    public Long getProductId() {
+        return productId;
     }
 
     public String getWarehouseId() {
         return warehouseId;
+    }
+
+    public Float getDemandInUnits() {
+        return demandInUnits;
     }
 
     public int getOnHand() {

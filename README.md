@@ -31,7 +31,7 @@ Each module follows a clean architecture path:
 
 Inventory read workflow example:
 
-`GET /inventory/warehouses/{warehouseId}/items/{sku}`
+`GET /api/inventory/warehouses/{warehouseId}/products/{productId}`
 
 `FindInventoryStockUseCaseAdapter` → `FindInventoryStockUseCase` → `FindInventoryStockService` → `InventoryRepository` → `InventoryRepositoryAdapter` (prod) or `InventoryRepositoryInMemoryAdapter` (dev)
 
@@ -98,15 +98,16 @@ In this workflow, the frontend proxy forwards `/inventory/**` to the backend.
 2. Query inventory endpoint:
 
 ```http
-GET /inventory/warehouses/WH-AMS/items/SKU-001
+GET /api/inventory/warehouses/WH-AMS/products/1
 ```
 
 Expected shape:
 
 ```json
 {
-  "sku": "SKU-001",
+  "productId": 1,
   "warehouseId": "WH-AMS",
+  "demandInUnits": 0.0,
   "onHand": 100,
   "reserved": 25,
   "availableQuantity": 75

@@ -2,9 +2,14 @@ spring:
   application:
     name: Warehouse_Optimization
   config:
-    import: optional:configtree:/run/secrets/
+    import:
+      - optional:configtree:/run/secrets/
+      - optional:configtree:./secrets/
   profiles:
     default: dev
+  docker:
+    compose:
+      enabled: ${SPRING_DOCKER_COMPOSE_ENABLED:false}
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://warehouse-postgressql.postgres.database.azure.com:5432/postgres?sslmode=require}
     username: ${SPRING_DATASOURCE_USERNAME:super_admin}

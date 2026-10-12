@@ -17,13 +17,14 @@ public class FindInventoryStockService implements FindInventoryStockUseCase {
     }
 
     @Override
-    public Optional<StockView> findStock(String sku, String warehouseId) {
-        return repository.findBySkuAndWarehouseId(sku, warehouseId)
+    public Optional<StockView> findStock(Long productId, String warehouseId) {
+        return repository.findByProductIdAndWarehouseId(productId, warehouseId)
                 .map(item -> new StockView(
-                        item.sku(),
+                        item.productId(),
                         item.warehouseId(),
+                        item.demandInUnits(),
                         item.onHand(),
                         item.reserved(),
-                        item.onHand() - item.reserved()));
+                        item.availableQuantity()));
     }
 }

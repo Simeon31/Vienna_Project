@@ -16,11 +16,12 @@ public class InventoryRepositoryAdapter implements InventoryRepository {
     }
 
     @Override
-    public Optional<InventoryItem> findBySkuAndWarehouseId(String sku, String warehouseId) {
-        return jpaRepository.findBySkuAndWarehouseId(sku, warehouseId)
+    public Optional<InventoryItem> findByProductIdAndWarehouseId(Long productId, String warehouseId) {
+        return jpaRepository.findByProductIdAndWarehouseId(productId, warehouseId)
                 .map(item -> new InventoryItem(
-                        item.getSku(),
+                        item.getProductId(),
                         item.getWarehouseId(),
+                        item.getDemandInUnits(),
                         item.getOnHand(),
                         item.getReserved()));
     }
