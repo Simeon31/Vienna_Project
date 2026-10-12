@@ -32,6 +32,10 @@ public final class Account {
     public void activate() { this.active = true; }
     public void deactivate() { this.active = false; }
 
+    public void assignRole(Integer roleId) {
+        this.roleId = Objects.requireNonNull(roleId, "roleId must not be null");
+    }
+
     public Integer getId() { return id; }
     public String getUsername() { return username; }
     public String getEmail() { return email; }
@@ -56,4 +60,6 @@ public final class Account {
             super("Role not found: " + roleId);
         }
     }
+
+
 }

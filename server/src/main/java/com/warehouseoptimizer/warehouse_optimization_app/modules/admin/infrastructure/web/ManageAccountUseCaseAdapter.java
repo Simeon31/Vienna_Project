@@ -3,6 +3,7 @@ package com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastr
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.ports.in.ManageAccountUseCase;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.domain.Account;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.AccountResponse;
+import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.AssignRoleRequest;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.CreateAccountRequest;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.EditAccountRequest;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,16 @@ public class ManageAccountUseCaseAdapter {
     @PatchMapping("/{id}/deactivate")
     public ResponseEntity<AccountResponse> deactivateAccount(@PathVariable Integer id) {
         Account account = manageAccountUseCase.deactivateAccount(id);
+        return ResponseEntity.ok(AccountResponse.fromDomain(account));
+    }
+
+    @PatchMapping("/{id}/role")
+    public ResponseEntity<AccountResponse> assignRole(
+            @PathVariable Integer id,
+            @RequestBody AssignRoleRequest request) {
+
+        Account account = manageAccountUseCase.assignRole(id, request.roleId());
+
         return ResponseEntity.ok(AccountResponse.fromDomain(account));
     }
 

@@ -9,5 +9,6 @@ public interface ManageAccountUseCase {
     Account editAccount(Integer accountId, String username, String email);
     Account activateAccount(Integer accountId);
     Account deactivateAccount(Integer accountId);
+    Account assignRole(Integer accountId, Integer roleId);
     List<Account> listAccounts();
 }

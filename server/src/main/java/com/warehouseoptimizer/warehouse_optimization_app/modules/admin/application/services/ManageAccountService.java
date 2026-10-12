@@ -58,6 +58,19 @@ public class ManageAccountService implements ManageAccountUseCase {
     }
 
     @Override
+    public Account assignRole(Integer accountId, Integer roleId) {
+        Account account = getAccountOrThrow(accountId);
+
+        if (!roleRepository.existsById(roleId)) {
+            throw new Account.RoleNotFoundException(roleId);
+        }
+
+        account.assignRole(roleId);
+
+        return accountRepository.save(account);
+    }
+
+    @Override
     public List<Account> listAccounts() {
         return accountRepository.findAll();
     }
