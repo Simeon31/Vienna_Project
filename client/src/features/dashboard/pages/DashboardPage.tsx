@@ -3,6 +3,7 @@ import PageHeader from '../../../components/ui/PageHeader';
 import StatCard from '../../../components/ui/StatCard';
 import Card from '../../../components/ui/Card';
 import WarehouseCapacityPanel from '../components/WarehouseCapacityPanel';
+import CapacityAlertsPanel from '../components/CapacityAlertsPanel';
 import { getDashboardStats } from '../api/dashboardApi';
 import type { DashboardStats } from '../types';
 import styles from './DashboardPage.module.css';
@@ -77,12 +78,7 @@ export default function DashboardPage() {
                     <p>Coming soon</p>
                 </Card>
 
-                <Card
-                    title="Capacity Alerts"
-                    subtitle="Locations at or above the 75% warning threshold"
-                >
-                    <p>Coming soon</p>
-                </Card>
+                <CapacityAlertsPanel />
 
                 <Card title="Quick Actions">
                     <p>Coming soon</p>
