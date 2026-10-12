@@ -2,6 +2,7 @@
 import type { ShipmentView } from '../types';
 import Badge, { type BadgeVariant } from '../../../components/ui/Badge';
 import Card from '../../../components/ui/Card';
+import Table from '../../../components/ui/Table';
 
 interface ShipmentTableProps {
     shipments: ShipmentView[];
@@ -26,7 +27,7 @@ export default function ShipmentTable({ shipments }: ShipmentTableProps) {
             title="Incoming Shipments"
             subtitle="Overview of shipment records"
         >
-            <table>
+            <Table>
                 <thead>
                 <tr>
                     <th>Shipment Name</th>
@@ -62,7 +63,7 @@ export default function ShipmentTable({ shipments }: ShipmentTableProps) {
                     ))
                 )}
                 </tbody>
-            </table>
+            </Table>
         </Card>
     );
 }
