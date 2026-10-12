@@ -87,39 +87,8 @@
     overflow-x: auto;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.875rem;
-}
-
-th {
-    padding: 0.7rem 0.75rem;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-td {
-    padding: 0.9rem 0.75rem;
-    border-bottom: 1px solid var(--color-border);
-    vertical-align: middle;
-}
-
-tbody tr:last-child td {
-    border-bottom: 0;
-}
-
-td strong,
 .recordId {
     display: block;
-}
-
-.recordId {
     margin-top: 0.15rem;
     color: var(--color-text-muted);
     font-size: 0.75rem;

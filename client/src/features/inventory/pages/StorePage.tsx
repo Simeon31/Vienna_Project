@@ -1,6 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import PageHeader from '../../../components/ui/PageHeader';
 import Button from '../../../components/ui/Button';
+import Table from '../../../components/ui/Table';
 import type { Store } from '../types';
 import styles from './StorePage.module.css';
 
@@ -186,7 +187,7 @@ export default function StorePage() {
                 </div>
 
                 <div className={styles.tableWrap}>
-                    <table>
+                    <Table>
                         <thead>
                             <tr>
                                 <th>Store</th>
@@ -237,7 +238,7 @@ export default function StorePage() {
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
+                    </Table>
                     {visibleStores.length === 0 && (
                         <p className={styles.emptyState}>No stores match your search.</p>
                     )}
