@@ -1,6 +1,6 @@
 import type { AccountDistribution, DashboardStats, WarehouseCapacity } from '../types';
 import { getWarehouses } from '../../warehouses/api/warehousesApi';
-import {WARNING_THRESHOLD, getCommittedPercent, getSampleUtilization,} from '../../warehouses/capacity';
+import { getCommittedPercent, getSampleUtilization, isNearCapacity } from '../../warehouses/capacity';
 
 // Mock values until the accounts backend is available
 const MOCK_TOTAL_ACCOUNTS = 248;
@@ -15,9 +15,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
         activeAccounts: MOCK_ACTIVE_ACCOUNTS,
         totalWarehouses: warehouses.length,
         activeWarehouses: activeWarehouses.length,
-        warehousesNearCapacity: activeWarehouses.filter(
-            (warehouse) =>
-                getCommittedPercent(getSampleUtilization(warehouse.id)) >= WARNING_THRESHOLD,).length,
+        warehousesNearCapacity: warehouses.filter(isNearCapacity).length,
     };
 }
 

@@ -1,4 +1,4 @@
-import type { WarehouseUtilization } from './types';
+import type { Warehouse, WarehouseUtilization } from './types';
 import type { BadgeVariant } from '../../components/ui/Badge';
 
 export const WARNING_THRESHOLD = 75;
@@ -34,4 +34,11 @@ export function getSampleUtilization(warehouseId: number): WarehouseUtilization 
 
 export function getCommittedPercent(utilization: WarehouseUtilization): number {
     return utilization.occupiedPercent + utilization.reservedPercent;
+}
+
+export function isNearCapacity(warehouse: Warehouse): boolean {
+    return (
+        warehouse.active &&
+        getCommittedPercent(getSampleUtilization(warehouse.id)) >= WARNING_THRESHOLD
+    );
 }
