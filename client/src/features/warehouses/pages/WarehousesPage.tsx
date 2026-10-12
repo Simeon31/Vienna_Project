@@ -5,13 +5,34 @@ import Card from '../../../components/ui/Card';
 import ButtonLink from '../../../components/ui/ButtonLink';
 import WarehouseTable from '../components/WarehouseTable';
 import { getWarehouses } from '../api/warehousesApi';
-import { CRITICAL_THRESHOLD, WARNING_THRESHOLD, isNearCapacity } from '../capacity';
+import {CRITICAL_THRESHOLD, WARNING_THRESHOLD, getCapacityStatus, getCommittedPercent, getSampleUtilization, isNearCapacity,} from '../capacity';
+import SearchInput from '../../../components/ui/SearchInput';
+import SegmentedControl from '../../../components/ui/SegmentedControl';
 import type { Warehouse } from '../types';
 import styles from './WarehousesPage.module.css';
+
+type StatusFilter = 'all' | 'active' | 'inactive';
+type CapacityFilter = 'all' | 'normal' | 'warning' | 'critical';
+
+const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
+    { value: 'all', label: 'All' },
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' },
+];
+
+const CAPACITY_OPTIONS: { value: CapacityFilter; label: string }[] = [
+    { value: 'all', label: 'All' },
+    { value: 'normal', label: 'Normal' },
+    { value: 'warning', label: 'Warning' },
+    { value: 'critical', label: 'Critical' },
+];
 
 export default function WarehousesPage() {
     const [warehouses, setWarehouses] = useState<Warehouse[] | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [search, setSearch] = useState('');
+    const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+    const [capacityFilter, setCapacityFilter] = useState<CapacityFilter>('all');
 
     useEffect(() => {
         let ignore = false;
@@ -34,6 +55,21 @@ export default function WarehousesPage() {
     const active = warehouses?.filter((warehouse) => warehouse.active).length ?? 0;
     const nearCapacity = warehouses?.filter(isNearCapacity).length ?? 0;
     const activeShare = total > 0 ? ((active / total) * 100).toFixed(1) : '0.0';
+
+    // Filtered view of the list; the figures above always use the full list
+    const query = search.trim().toLowerCase();
+    const visibleWarehouses = (warehouses ?? []).filter((warehouse) => {
+        if (statusFilter === 'active' && !warehouse.active) return false;
+        if (statusFilter === 'inactive' && warehouse.active) return false;
+
+        if (capacityFilter !== 'all') {
+            const committed = Math.round(getCommittedPercent(getSampleUtilization(warehouse.id)));
+            if (getCapacityStatus(committed).label.toLowerCase() !== capacityFilter) return false;
+        }
+
+        if (!query) return true;
+        return `${warehouse.name} ${warehouse.address}`.toLowerCase().includes(query);
+    });
 
     return (
         <>
@@ -75,9 +111,36 @@ export default function WarehousesPage() {
                 />
             </section>
 
+            <section className={styles.filters} aria-label="Filter warehouses">
+                <div className={styles.search}>
+                    <SearchInput
+                        label="Search warehouses"
+                        value={search}
+                        onChange={setSearch}
+                        placeholder="Search by warehouse name or location"
+                    />
+                </div>
+                <SegmentedControl
+                    label="Status"
+                    options={STATUS_OPTIONS}
+                    value={statusFilter}
+                    onChange={setStatusFilter}
+                />
+                <SegmentedControl
+                    label="Capacity"
+                    options={CAPACITY_OPTIONS}
+                    value={capacityFilter}
+                    onChange={setCapacityFilter}
+                />
+            </section>
+
             <Card
                 title="Warehouses"
-                subtitle="All registered warehouses"
+                subtitle={
+                    warehouses
+                        ? `${visibleWarehouses.length} of ${total} warehouses`
+                        : 'All registered warehouses'
+                }
                 footer={
                     <>
             <span>
@@ -92,7 +155,11 @@ export default function WarehousesPage() {
                     <p className={styles.message}>No warehouses yet. Add the first one.</p>
                 )}
 
-                {warehouses && warehouses.length > 0 && <WarehouseTable warehouses={warehouses} />}
+                {warehouses && warehouses.length > 0 && visibleWarehouses.length === 0 && (
+                    <p className={styles.message}>No warehouses match your search or filters.</p>
+                )}
+
+                {visibleWarehouses.length > 0 && <WarehouseTable warehouses={visibleWarehouses} />}
             </Card>
         </>
     );
