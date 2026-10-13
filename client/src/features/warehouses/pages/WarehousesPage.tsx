@@ -12,6 +12,7 @@ import type { PendingStatusChange, Warehouse } from '../types';
 import styles from './WarehousesPage.module.css';
 import WarehouseStatusDialog from '../components/WarehouseStatusDialog';
 import CannotDeactivateDialog from '../components/CannotDeactivateDialog';
+import { useLocation } from 'react-router';
 
 type StatusFilter = 'all' | 'active' | 'inactive';
 type CapacityFilter = 'all' | 'normal' | 'warning' | 'critical';
@@ -39,7 +40,10 @@ export default function WarehousesPage() {
     const [blockedWarehouse, setBlockedWarehouse] = useState<Warehouse | null>(null);
     const [saving, setSaving] = useState(false);
     const [actionError, setActionError] = useState<string | null>(null);
-    const [notice, setNotice] = useState<string | null>(null);
+    const location = useLocation();
+    const [notice, setNotice] = useState<string | null>(
+        (location.state as { notice?: string } | null)?.notice ?? null,
+    );
 
     useEffect(() => {
         let ignore = false;

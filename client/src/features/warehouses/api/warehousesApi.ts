@@ -1,4 +1,4 @@
-import type { Warehouse } from '../types';
+import type { Warehouse, WarehouseInput } from '../types';
 
 export async function getWarehouses(): Promise<Warehouse[]> {
     const response = await fetch('/api/warehouses');
@@ -32,6 +32,24 @@ export async function deactivateWarehouse(id: number): Promise<Warehouse> {
     }
     if (!response.ok) {
         throw new Error(`Failed to deactivate warehouse (${response.status})`);
+    }
+
+    return response.json();
+}
+
+export async function createWarehouse(input: WarehouseInput): Promise<Warehouse> {
+    const response = await fetch('/api/warehouses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+    });
+
+    if (response.status === 400) {
+        // The backend explains what is wrong, e.g. "Warehouse name is required"
+        throw new Error(await response.text());
+    }
+    if (!response.ok) {
+        throw new Error(`Failed to create warehouse (${response.status})`);
     }
 
     return response.json();
