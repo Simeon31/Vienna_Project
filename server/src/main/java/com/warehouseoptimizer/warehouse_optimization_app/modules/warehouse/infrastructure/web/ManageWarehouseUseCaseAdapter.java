@@ -27,6 +27,11 @@ public class ManageWarehouseUseCaseAdapter {
                 .toList();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<WarehouseResponse> getWarehouseById(@PathVariable Long id) {
+        return ResponseEntity.ok(toResponse(manageWarehouseUseCase.getWarehouseById(id)));
+    }
+
     @PostMapping
     public ResponseEntity<WarehouseResponse> createWarehouse(@RequestBody CreateWarehouseRequest request) {
         Warehouse created = manageWarehouseUseCase.createWarehouse(

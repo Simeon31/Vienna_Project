@@ -16,4 +16,6 @@ public interface ManageWarehouseUseCase {
     Warehouse deactivateWarehouse(Long id);
 
     Warehouse updateWarehouse(Long id, String name, String address, double latitude, double longitude, double capacity);
+
+    Warehouse getWarehouseById(Long id);
 }
