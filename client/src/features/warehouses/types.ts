@@ -12,3 +12,8 @@ export interface WarehouseUtilization {
     occupiedPercent: number;
     reservedPercent: number;
 }
+
+export interface PendingStatusChange {
+    warehouse: Warehouse;
+    action: 'activate' | 'deactivate';
+}

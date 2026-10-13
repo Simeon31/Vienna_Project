@@ -5,13 +5,16 @@ import ButtonLink from '../../../components/ui/ButtonLink';
 import { getCapacityStatus, getCommittedPercent, getSampleUtilization } from '../capacity';
 import type { Warehouse } from '../types';
 import styles from './WarehouseTable.module.css';
+import Button from '../../../components/ui/Button';
 
 interface WarehouseTableProps {
     /** Warehouses to show, in the given order. */
     warehouses: Warehouse[];
+    /** Called when the user clicks Activate or Deactivate in a row. */
+    onToggleActive: (warehouse: Warehouse) => void;
 }
 
-export default function WarehouseTable({ warehouses }: WarehouseTableProps) {
+export default function WarehouseTable({ warehouses, onToggleActive }: WarehouseTableProps) {
     return (
         <Table>
             <thead>
@@ -74,6 +77,13 @@ export default function WarehouseTable({ warehouses }: WarehouseTableProps) {
                                 >
                                     Edit
                                 </ButtonLink>
+                                <Button
+                                    variant="text"
+                                    onClick={() => onToggleActive(warehouse)}
+                                    aria-label={`${warehouse.active ? 'Deactivate' : 'Activate'} ${warehouse.name}`}
+                                >
+                                    {warehouse.active ? 'Deactivate' : 'Activate'}
+                                </Button>
                             </div>
                         </td>
                     </tr>

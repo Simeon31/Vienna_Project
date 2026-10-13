@@ -9,3 +9,30 @@ export async function getWarehouses(): Promise<Warehouse[]> {
 
     return response.json();
 }
+
+/** Thrown when the backend refuses to deactivate because the warehouse still has active shipments (409). */
+export class WarehouseHasActiveShipmentsError extends Error {}
+
+export async function activateWarehouse(id: number): Promise<Warehouse> {
+    const response = await fetch(`/api/warehouses/${id}/activate`, { method: 'PATCH' });
+
+    if (!response.ok) {
+        throw new Error(`Failed to activate warehouse (${response.status})`);
+    }
+
+    return response.json();
+}
+
+export async function deactivateWarehouse(id: number): Promise<Warehouse> {
+    // throw new WarehouseHasActiveShipmentsError('test');
+    const response = await fetch(`/api/warehouses/${id}/deactivate`, { method: 'PATCH' });
+
+    if (response.status === 409) {
+        throw new WarehouseHasActiveShipmentsError(await response.text());
+    }
+    if (!response.ok) {
+        throw new Error(`Failed to deactivate warehouse (${response.status})`);
+    }
+
+    return response.json();
+}

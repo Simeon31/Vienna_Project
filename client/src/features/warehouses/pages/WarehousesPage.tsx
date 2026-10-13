@@ -4,12 +4,14 @@ import StatCard from '../../../components/ui/StatCard';
 import Card from '../../../components/ui/Card';
 import ButtonLink from '../../../components/ui/ButtonLink';
 import WarehouseTable from '../components/WarehouseTable';
-import { getWarehouses } from '../api/warehousesApi';
+import {WarehouseHasActiveShipmentsError, activateWarehouse, deactivateWarehouse, getWarehouses,} from '../api/warehousesApi';
 import {CRITICAL_THRESHOLD, WARNING_THRESHOLD, getCapacityStatus, getCommittedPercent, getSampleUtilization, isNearCapacity,} from '../capacity';
 import SearchInput from '../../../components/ui/SearchInput';
 import SegmentedControl from '../../../components/ui/SegmentedControl';
-import type { Warehouse } from '../types';
+import type { PendingStatusChange, Warehouse } from '../types';
 import styles from './WarehousesPage.module.css';
+import WarehouseStatusDialog from '../components/WarehouseStatusDialog';
+import CannotDeactivateDialog from '../components/CannotDeactivateDialog';
 
 type StatusFilter = 'all' | 'active' | 'inactive';
 type CapacityFilter = 'all' | 'normal' | 'warning' | 'critical';
@@ -33,6 +35,11 @@ export default function WarehousesPage() {
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
     const [capacityFilter, setCapacityFilter] = useState<CapacityFilter>('all');
+    const [pendingChange, setPendingChange] = useState<PendingStatusChange | null>(null);
+    const [blockedWarehouse, setBlockedWarehouse] = useState<Warehouse | null>(null);
+    const [saving, setSaving] = useState(false);
+    const [actionError, setActionError] = useState<string | null>(null);
+    const [notice, setNotice] = useState<string | null>(null);
 
     useEffect(() => {
         let ignore = false;
@@ -70,6 +77,48 @@ export default function WarehousesPage() {
         if (!query) return true;
         return `${warehouse.name} ${warehouse.address}`.toLowerCase().includes(query);
     });
+
+    const openStatusChange = (warehouse: Warehouse) => {
+        setNotice(null);
+        setActionError(null);
+        setPendingChange({ warehouse, action: warehouse.active ? 'deactivate' : 'activate' });
+    };
+
+    const cancelStatusChange = () => {
+        // Don't close while the request is still running
+        if (!saving) setPendingChange(null);
+    };
+
+    const confirmStatusChange = async () => {
+        if (!pendingChange) return;
+        const { warehouse, action } = pendingChange;
+
+        setSaving(true);
+        setActionError(null);
+
+        try {
+            const updated =
+                action === 'activate'
+                    ? await activateWarehouse(warehouse.id)
+                    : await deactivateWarehouse(warehouse.id);
+
+            // Replace the changed warehouse in the list; figures and table update automatically
+            setWarehouses((current) =>
+                current ? current.map((item) => (item.id === updated.id ? updated : item)) : current,
+            );
+            setPendingChange(null);
+            setNotice(`${updated.name} was ${action === 'activate' ? 'activated' : 'deactivated'}.`);
+        } catch (caught) {
+            if (caught instanceof WarehouseHasActiveShipmentsError) {
+                setPendingChange(null);
+                setBlockedWarehouse(warehouse);
+            } else {
+                setActionError('The status could not be changed. Please try again.');
+            }
+        } finally {
+            setSaving(false);
+        }
+    };
 
     return (
         <>
@@ -134,6 +183,12 @@ export default function WarehousesPage() {
                 />
             </section>
 
+            {notice && (
+                <p className={styles.notice} role="status">
+                    {notice}
+                </p>
+            )}
+
             <Card
                 title="Warehouses"
                 subtitle={
@@ -159,8 +214,23 @@ export default function WarehousesPage() {
                     <p className={styles.message}>No warehouses match your search or filters.</p>
                 )}
 
-                {visibleWarehouses.length > 0 && <WarehouseTable warehouses={visibleWarehouses} />}
+                {visibleWarehouses.length > 0 && (
+                    <WarehouseTable warehouses={visibleWarehouses} onToggleActive={openStatusChange} />
+                )}
             </Card>
+
+            <WarehouseStatusDialog
+                pendingChange={pendingChange}
+                saving={saving}
+                error={actionError}
+                onCancel={cancelStatusChange}
+                onConfirm={confirmStatusChange}
+            />
+
+            <CannotDeactivateDialog
+                warehouse={blockedWarehouse}
+                onClose={() => setBlockedWarehouse(null)}
+            />
         </>
     );
 }
