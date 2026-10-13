@@ -54,3 +54,39 @@ export async function createWarehouse(input: WarehouseInput): Promise<Warehouse>
 
     return response.json();
 }
+
+/** Thrown when the backend answers 404 for a warehouse id. */
+export class WarehouseNotFoundError extends Error {}
+
+export async function getWarehouse(id: number): Promise<Warehouse> {
+    const response = await fetch(`/api/warehouses/${id}`);
+
+    if (response.status === 404) {
+        throw new WarehouseNotFoundError(`Warehouse ${id} not found`);
+    }
+    if (!response.ok) {
+        throw new Error(`Failed to load warehouse (${response.status})`);
+    }
+
+    return response.json();
+}
+
+export async function updateWarehouse(id: number, input: WarehouseInput): Promise<Warehouse> {
+    const response = await fetch(`/api/warehouses/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+    });
+
+    if (response.status === 400) {
+        throw new Error(await response.text());
+    }
+    if (response.status === 404) {
+        throw new WarehouseNotFoundError(`Warehouse ${id} not found`);
+    }
+    if (!response.ok) {
+        throw new Error(`Failed to update warehouse (${response.status})`);
+    }
+
+    return response.json();
+}
