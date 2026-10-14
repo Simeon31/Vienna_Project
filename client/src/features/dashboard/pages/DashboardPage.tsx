@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import PageHeader from '../../../components/ui/PageHeader';
 import StatCard from '../../../components/ui/StatCard';
-import Card from '../../../components/ui/Card';
 import WarehouseCapacityPanel from '../components/WarehouseCapacityPanel';
+import CapacityAlertsPanel from '../components/CapacityAlertsPanel';
+import QuickActionsPanel from '../components/QuickActionsPanel';
+import AccountDistributionPanel from '../components/AccountDistributionPanel';
 import { getDashboardStats } from '../api/dashboardApi';
 import type { DashboardStats } from '../types';
 import styles from './DashboardPage.module.css';
@@ -70,23 +72,11 @@ export default function DashboardPage() {
             <div className={styles.panels}>
                 <WarehouseCapacityPanel />
 
-                <Card
-                    title="Account Distribution"
-                    subtitle="All registered Manager and Employee accounts"
-                >
-                    <p>Coming soon</p>
-                </Card>
+                <AccountDistributionPanel />
 
-                <Card
-                    title="Capacity Alerts"
-                    subtitle="Locations at or above the 75% warning threshold"
-                >
-                    <p>Coming soon</p>
-                </Card>
+                <CapacityAlertsPanel />
 
-                <Card title="Quick Actions">
-                    <p>Coming soon</p>
-                </Card>
+                <QuickActionsPanel />
             </div>
         </>
     );

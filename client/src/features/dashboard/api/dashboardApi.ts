@@ -1,4 +1,4 @@
-import type { DashboardStats, WarehouseCapacity } from '../types';
+import type { AccountDistribution, DashboardStats, WarehouseCapacity } from '../types';
 import { getWarehouses } from '../../warehouses/api/warehousesApi';
 
 // Mock values until the backend provides them
@@ -45,4 +45,14 @@ export async function getWarehouseCapacities(): Promise<WarehouseCapacity[]> {
             (a, b) =>
                 b.occupiedPercent + b.reservedPercent - (a.occupiedPercent + a.reservedPercent),
         );
+}
+
+// Mock values until the accounts backend is available
+const MOCK_ACCOUNT_DISTRIBUTION: AccountDistribution = {
+    managers: 48,
+    employees: 200,
+};
+
+export async function getAccountDistribution(): Promise<AccountDistribution> {
+    return MOCK_ACCOUNT_DISTRIBUTION;
 }

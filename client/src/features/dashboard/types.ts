@@ -13,3 +13,8 @@ export interface WarehouseCapacity {
     occupiedPercent: number;
     reservedPercent: number;
 }
+
+export interface AccountDistribution {
+    managers: number;
+    employees: number;
+}

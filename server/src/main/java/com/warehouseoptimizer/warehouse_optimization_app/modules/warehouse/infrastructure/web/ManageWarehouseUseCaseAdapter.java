@@ -20,14 +20,14 @@ public class ManageWarehouseUseCaseAdapter {
         this.manageWarehouseUseCase = manageWarehouseUseCase;
     }
 
-    @GetMapping("/view")
+    @GetMapping
     public List<WarehouseResponse> getAllWarehouses() {
         return manageWarehouseUseCase.getAllWarehouses().stream()
                 .map(this::toResponse)
                 .toList();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<WarehouseResponse> createWarehouse(@RequestBody CreateWarehouseRequest request) {
         Warehouse created = manageWarehouseUseCase.createWarehouse(
                 request.name(),

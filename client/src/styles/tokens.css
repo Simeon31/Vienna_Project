@@ -7,6 +7,7 @@
     --color-border: #e2e2e2;
     --color-primary: #111111;
     --color-primary-text: #ffffff;
+    --color-primary-hover: #333333;
 
     /* Sidebar */
     --color-sidebar: #111111;
@@ -30,6 +31,10 @@
     --color-success-text: #ffffff;
     --color-neutral-bg: #e6e6e6;
     --color-neutral-text: #111111;
+
+    /* Charts */
+    --color-chart-1: #333333;
+    --color-chart-2: #9a9a9a;
 
     /* Spacing */
     --space-1: 0.25rem;
