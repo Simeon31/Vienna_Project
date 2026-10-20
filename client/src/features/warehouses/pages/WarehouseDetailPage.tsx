@@ -10,6 +10,8 @@ import WarehouseStatusDialogs from '../components/WarehouseStatusDialogs';
 import { useWarehouse } from '../hooks/useWarehouse';
 import { useWarehouseStatusChange } from '../hooks/useWarehouseStatusChange';
 import styles from './WarehouseDetailPage.module.css';
+import CapacityOverview from '../components/CapacityOverview';
+import NearCapacityAlert from '../components/NearCapacityAlert';
 
 export default function WarehouseDetailPage() {
     const { id } = useParams();
@@ -97,6 +99,9 @@ export default function WarehouseDetailPage() {
                             </div>
                         </dl>
                     </Card>
+
+                    <CapacityOverview warehouse={warehouse} />
+                    <NearCapacityAlert warehouse={warehouse} />
 
                     <Card title="Warehouse Status and Actions">
                         <div className={styles.statusRow}>
