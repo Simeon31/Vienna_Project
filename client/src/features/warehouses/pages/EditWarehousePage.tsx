@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import Breadcrumb from '../../../components/ui/Breadcrumb';
 import PageHeader from '../../../components/ui/PageHeader';
 import ButtonLink from '../../../components/ui/ButtonLink';
 import WarehouseForm from '../components/WarehouseForm';
-import { WarehouseNotFoundError, getWarehouse, updateWarehouse } from '../api/warehousesApi';
+import { updateWarehouse } from '../api/warehousesApi';
+import { useWarehouse } from '../hooks/useWarehouse';
 import type { Warehouse, WarehouseFormValues, WarehouseInput } from '../types';
 import styles from './EditWarehousePage.module.css';
 
@@ -20,36 +20,13 @@ function toFormValues(warehouse: Warehouse): WarehouseFormValues {
 
 export default function EditWarehousePage() {
     const { id } = useParams();
-    const warehouseId = Number(id);
-    const invalidId = !Number.isInteger(warehouseId) || warehouseId <= 0;
+    const { warehouseId, warehouse, notFound, failed } = useWarehouse(id);
     const navigate = useNavigate();
-
-    const [warehouse, setWarehouse] = useState<Warehouse | null>(null);
-    const [loadError, setLoadError] = useState<'not-found' | 'failed' | null>(null);
-
-    useEffect(() => {
-        if (invalidId) return;
-        let ignore = false;
-
-        getWarehouse(warehouseId)
-            .then((data) => {
-                if (!ignore) setWarehouse(data);
-            })
-            .catch((caught) => {
-                if (!ignore) setLoadError(caught instanceof WarehouseNotFoundError ? 'not-found' : 'failed');
-            });
-
-        return () => {
-            ignore = true;
-        };
-    }, [warehouseId, invalidId]);
 
     const handleUpdate = async (input: WarehouseInput) => {
         const updated = await updateWarehouse(warehouseId, input);
         navigate('/warehouses', { state: { notice: `${updated.name} was updated.` } });
     };
-
-    const notFound = invalidId || loadError === 'not-found';
 
     return (
         <>
@@ -70,13 +47,13 @@ export default function EditWarehousePage() {
                 </p>
             )}
 
-            {loadError === 'failed' && (
+            {failed && (
                 <p className={styles.message} role="alert">
                     The warehouse could not be loaded. Please try again later.
                 </p>
             )}
 
-            {!notFound && !loadError && !warehouse && <p className={styles.message}>Loading…</p>}
+            {!notFound && !failed && !warehouse && <p className={styles.message}>Loading…</p>}
 
             {warehouse && (
                 <WarehouseForm

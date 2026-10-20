@@ -6,6 +6,7 @@ import StorePage from "./features/inventory/pages/StorePage.tsx";
 import ShipmentsPage from './features/shipments/pages/ShipmentsPage';
 import AddWarehousePage from './features/warehouses/pages/AddWarehousePage';
 import EditWarehousePage from './features/warehouses/pages/EditWarehousePage';
+import WarehouseDetailPage from './features/warehouses/pages/WarehouseDetailPage';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route index element={<DashboardPage />} />
             <Route path="warehouses" element={<WarehousesPage />} />
               <Route path="warehouses/new" element={<AddWarehousePage />} />
+              <Route path="warehouses/:id" element={<WarehouseDetailPage />} />
               <Route path="warehouses/:id/edit" element={<EditWarehousePage />} />
             <Route path="inventory" element={<StorePage />} />
               <Route path="shipments" element={<ShipmentsPage />} />

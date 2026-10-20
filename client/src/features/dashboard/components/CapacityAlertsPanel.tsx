@@ -70,7 +70,7 @@ export default function CapacityAlertsPanel() {
                                         for incoming inventory.
                                     </p>
                                 </div>
-                                <ButtonLink to="/warehouses" aria-label={`View Warehouse ${item.name}`}>
+                                <ButtonLink to={`/warehouses/${item.id}`} aria-label={`View Warehouse ${item.name}`}>
                                     View Warehouse
                                 </ButtonLink>
                             </li>
