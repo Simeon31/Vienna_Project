@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import Card from '../../../components/ui/Card';
 import ProgressBar from '../../../components/ui/ProgressBar';
 import Badge from '../../../components/ui/Badge';
-import { getCapacityStatus } from '../../warehouses/capacity';
+import { getCapacityStatus, getCommittedPercent } from '../../warehouses/capacity';
 import { getWarehouseCapacities } from '../api/dashboardApi';
 import type { WarehouseCapacity } from '../types';
 import styles from './WarehouseCapacityPanel.module.css';
@@ -56,7 +56,7 @@ export default function WarehouseCapacityPanel() {
             {capacities && capacities.length > 0 && (
                 <ul className={styles.list}>
                     {capacities.map((item) => {
-                        const committed = item.occupiedPercent + item.reservedPercent;
+                        const committed = getCommittedPercent(item);
                         const status = getCapacityStatus(committed);
 
                         return (

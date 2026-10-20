@@ -1,50 +1,39 @@
 import type { AccountDistribution, DashboardStats, WarehouseCapacity } from '../types';
 import { getWarehouses } from '../../warehouses/api/warehousesApi';
+import { getCommittedPercent, getSampleUtilization, isNearCapacity } from '../../warehouses/capacity';
 
-// Mock values until the backend provides them
+// Mock values until the accounts backend is available
 const MOCK_TOTAL_ACCOUNTS = 248;
 const MOCK_ACTIVE_ACCOUNTS = 221;
-const MOCK_WAREHOUSES_NEAR_CAPACITY = 2;
 
 export async function getDashboardStats(): Promise<DashboardStats> {
     const warehouses = await getWarehouses();
+    const activeWarehouses = warehouses.filter((warehouse) => warehouse.active);
 
     return {
         totalAccounts: MOCK_TOTAL_ACCOUNTS,
         activeAccounts: MOCK_ACTIVE_ACCOUNTS,
         totalWarehouses: warehouses.length,
-        activeWarehouses: warehouses.filter((warehouses) => warehouses.active).length,
-        warehousesNearCapacity: MOCK_WAREHOUSES_NEAR_CAPACITY,
+        activeWarehouses: activeWarehouses.length,
+        warehousesNearCapacity: warehouses.filter(isNearCapacity).length,
     };
 }
-
-// Sample utilization until inventory and shipments are connected
-const SAMPLE_UTILIZATION = [
-    { occupied: 84, reserved: 8 },
-    { occupied: 70, reserved: 8 },
-    { occupied: 50, reserved: 5 },
-    { occupied: 25, reserved: 7 },
-];
 
 export async function getWarehouseCapacities(): Promise<WarehouseCapacity[]> {
     const warehouses = await getWarehouses();
 
     return warehouses
         .filter((warehouse) => warehouse.active)
-        .map((warehouse, index) => {
-            const sample = SAMPLE_UTILIZATION[index % SAMPLE_UTILIZATION.length];
+        .map((warehouse) => {
+            const utilization = getSampleUtilization(warehouse.id);
             return {
                 id: warehouse.id,
                 name: warehouse.name,
                 location: warehouse.address,
-                occupiedPercent: sample.occupied,
-                reservedPercent: sample.reserved,
+                ...utilization,
             };
         })
-        .sort(
-            (a, b) =>
-                b.occupiedPercent + b.reservedPercent - (a.occupiedPercent + a.reservedPercent),
-        );
+        .sort((a, b) => getCommittedPercent(b) - getCommittedPercent(a));
 }
 
 // Mock values until the accounts backend is available
