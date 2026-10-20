@@ -4,14 +4,14 @@ import StatCard from '../../../components/ui/StatCard';
 import Card from '../../../components/ui/Card';
 import ButtonLink from '../../../components/ui/ButtonLink';
 import WarehouseTable from '../components/WarehouseTable';
-import {WarehouseHasActiveShipmentsError, activateWarehouse, deactivateWarehouse, getWarehouses,} from '../api/warehousesApi';
+import { getWarehouses } from '../api/warehousesApi';
 import {CRITICAL_THRESHOLD, WARNING_THRESHOLD, getCapacityStatus, getCommittedPercent, getSampleUtilization, isNearCapacity,} from '../capacity';
 import SearchInput from '../../../components/ui/SearchInput';
 import SegmentedControl from '../../../components/ui/SegmentedControl';
-import type { PendingStatusChange, Warehouse } from '../types';
+import type { Warehouse } from '../types';
 import styles from './WarehousesPage.module.css';
-import WarehouseStatusDialog from '../components/WarehouseStatusDialog';
-import CannotDeactivateDialog from '../components/CannotDeactivateDialog';
+import WarehouseStatusDialogs from '../components/WarehouseStatusDialogs';
+import { useWarehouseStatusChange } from '../hooks/useWarehouseStatusChange';
 import { useLocation } from 'react-router';
 
 type StatusFilter = 'all' | 'active' | 'inactive';
@@ -36,10 +36,6 @@ export default function WarehousesPage() {
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
     const [capacityFilter, setCapacityFilter] = useState<CapacityFilter>('all');
-    const [pendingChange, setPendingChange] = useState<PendingStatusChange | null>(null);
-    const [blockedWarehouse, setBlockedWarehouse] = useState<Warehouse | null>(null);
-    const [saving, setSaving] = useState(false);
-    const [actionError, setActionError] = useState<string | null>(null);
     const location = useLocation();
     const [notice, setNotice] = useState<string | null>(
         (location.state as { notice?: string } | null)?.notice ?? null,
@@ -82,46 +78,17 @@ export default function WarehousesPage() {
         return `${warehouse.name} ${warehouse.address}`.toLowerCase().includes(query);
     });
 
-    const openStatusChange = (warehouse: Warehouse) => {
+    const statusChange = useWarehouseStatusChange((updated, action) => {
+        // Replace the changed warehouse in the list; figures and table update automatically
+        setWarehouses((current) =>
+            current ? current.map((item) => (item.id === updated.id ? updated : item)) : current,
+        );
+        setNotice(`${updated.name} was ${action === 'activate' ? 'activated' : 'deactivated'}.`);
+    });
+
+    const handleToggleActive = (warehouse: Warehouse) => {
         setNotice(null);
-        setActionError(null);
-        setPendingChange({ warehouse, action: warehouse.active ? 'deactivate' : 'activate' });
-    };
-
-    const cancelStatusChange = () => {
-        // Don't close while the request is still running
-        if (!saving) setPendingChange(null);
-    };
-
-    const confirmStatusChange = async () => {
-        if (!pendingChange) return;
-        const { warehouse, action } = pendingChange;
-
-        setSaving(true);
-        setActionError(null);
-
-        try {
-            const updated =
-                action === 'activate'
-                    ? await activateWarehouse(warehouse.id)
-                    : await deactivateWarehouse(warehouse.id);
-
-            // Replace the changed warehouse in the list; figures and table update automatically
-            setWarehouses((current) =>
-                current ? current.map((item) => (item.id === updated.id ? updated : item)) : current,
-            );
-            setPendingChange(null);
-            setNotice(`${updated.name} was ${action === 'activate' ? 'activated' : 'deactivated'}.`);
-        } catch (caught) {
-            if (caught instanceof WarehouseHasActiveShipmentsError) {
-                setPendingChange(null);
-                setBlockedWarehouse(warehouse);
-            } else {
-                setActionError('The status could not be changed. Please try again.');
-            }
-        } finally {
-            setSaving(false);
-        }
+        statusChange.open(warehouse);
     };
 
     return (
@@ -219,22 +186,11 @@ export default function WarehousesPage() {
                 )}
 
                 {visibleWarehouses.length > 0 && (
-                    <WarehouseTable warehouses={visibleWarehouses} onToggleActive={openStatusChange} />
+                    <WarehouseTable warehouses={visibleWarehouses} onToggleActive={handleToggleActive} />
                 )}
             </Card>
 
-            <WarehouseStatusDialog
-                pendingChange={pendingChange}
-                saving={saving}
-                error={actionError}
-                onCancel={cancelStatusChange}
-                onConfirm={confirmStatusChange}
-            />
-
-            <CannotDeactivateDialog
-                warehouse={blockedWarehouse}
-                onClose={() => setBlockedWarehouse(null)}
-            />
+            <WarehouseStatusDialogs statusChange={statusChange} />
         </>
     );
 }
