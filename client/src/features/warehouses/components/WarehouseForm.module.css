@@ -1,0 +1,68 @@
+.form {
+    max-width: 40rem;
+    margin: 0 auto;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+    .row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.statusTitle {
+    margin-bottom: var(--space-1);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.statusBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+}
+
+.statusValue {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.statusHint {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.statusNote {
+    margin-top: var(--space-2);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.submitError {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-text);
+    border-radius: var(--radius);
+    font-size: 0.8125rem;
+}
+
+.buttons {
+    display: flex;
+    gap: var(--space-3);
+    margin-left: auto;
+}

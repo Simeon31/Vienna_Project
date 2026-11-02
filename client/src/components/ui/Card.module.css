@@ -41,3 +41,17 @@
     font-size: 0.8125rem;
     color: var(--color-text-muted);
 }
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
