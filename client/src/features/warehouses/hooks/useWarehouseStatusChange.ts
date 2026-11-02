@@ -51,6 +51,7 @@ export function useWarehouseStatusChange(
                 setPendingChange(null);
                 setBlockedWarehouse(warehouse);
             } else {
+                console.error('Changing the warehouse status failed:', caught);
                 setError('The status could not be changed. Please try again.');
             }
         } finally {

@@ -4,6 +4,7 @@ import Button from '../../../components/ui/Button';
 import TextField from '../../../components/ui/TextField';
 import type { WarehouseFormValues, WarehouseInput } from '../types';
 import styles from './WarehouseForm.module.css';
+import { WarehouseNotFoundError, WarehouseValidationError } from '../api/warehousesApi';
 
 type FormErrors = Partial<Record<keyof WarehouseFormValues, string>>;
 
@@ -99,7 +100,15 @@ export default function WarehouseForm({
         try {
             await onSubmit(toInput(values));
         } catch (caught) {
-            setSubmitError(caught instanceof Error ? caught.message : 'The warehouse could not be saved.');
+            if (caught instanceof WarehouseValidationError) {
+                setSubmitError(caught.message);
+            } else if (caught instanceof WarehouseNotFoundError) {
+                setSubmitError('This warehouse no longer exists.');
+            } else {
+                // Technical details only for developers, not for the user
+                console.error('Saving the warehouse failed:', caught);
+                setSubmitError('The warehouse could not be saved. Please try again later.');
+            }
         } finally {
             setSubmitting(false);
         }
