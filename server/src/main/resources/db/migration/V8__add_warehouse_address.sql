@@ -1,0 +1,2 @@
+ALTER TABLE warehouse
+    ADD COLUMN IF NOT EXISTS address VARCHAR(255) NOT NULL DEFAULT 'Unknown';

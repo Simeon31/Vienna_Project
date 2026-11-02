@@ -1,0 +1,6 @@
+[engine:junit-jupiter]/[class:com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest]/[method:rejectsUnknownAccount()]
+[engine:junit-jupiter]/[class:com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest]/[method:rejectsWhenNothingSelected()]
+[engine:junit-jupiter]/[class:com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest]/[method:assignsStoreAccessOnly()]
+[engine:junit-jupiter]/[class:com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest]/[method:assignsBoth()]
+[engine:junit-jupiter]/[class:com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest]/[method:rejectsNonManagerAccount()]
+[engine:junit-jupiter]/[class:com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest]/[method:assignsWarehouseAccessOnly()]

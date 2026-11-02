@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-01T16:20:35.004Z" hostname="MacBook-Air-von-Ceyda.local" time="0.371">
+  <properties/>
+  <testcase name="rejectsUnknownAccount()" classname="com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest" time="0.36"/>
+  <testcase name="rejectsWhenNothingSelected()" classname="com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest" time="0.003"/>
+  <testcase name="assignsStoreAccessOnly()" classname="com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest" time="0.001"/>
+  <testcase name="assignsBoth()" classname="com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest" time="0.001"/>
+  <testcase name="rejectsNonManagerAccount()" classname="com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest" time="0.001"/>
+  <testcase name="assignsWarehouseAccessOnly()" classname="com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.services.AssignManagerAccessServiceTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/ceydabirsu/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.18.11/82212e5b3633e7a65fca8bec525762cfb6c9bae4/byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
