@@ -6,6 +6,8 @@ import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastru
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.AssignRoleRequest;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.CreateAccountRequest;
 import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.EditAccountRequest;
+import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.application.ports.in.AssignPermissionsUseCase;
+import com.warehouseoptimizer.warehouse_optimization_app.modules.admin.infrastructure.web.dto.AssignPermissionsRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin/accounts")
 public class ManageAccountUseCaseAdapter {
     private final ManageAccountUseCase manageAccountUseCase;
+    private final AssignPermissionsUseCase assignPermissionsUseCase;
 
-    public ManageAccountUseCaseAdapter(ManageAccountUseCase manageAccountUseCase) {
+    public ManageAccountUseCaseAdapter(
+            ManageAccountUseCase manageAccountUseCase,
+            AssignPermissionsUseCase assignPermissionsUseCase) {
+
         this.manageAccountUseCase = manageAccountUseCase;
+        this.assignPermissionsUseCase = assignPermissionsUseCase;
     }
 
     @PostMapping
@@ -65,6 +72,16 @@ public class ManageAccountUseCaseAdapter {
         return ResponseEntity.ok(AccountResponse.fromDomain(account));
     }
 
+    @PutMapping("/{id}/permissions")
+    public ResponseEntity<Void> assignPermissions(
+            @PathVariable Integer id,
+            @RequestBody AssignPermissionsRequest request) {
+
+        assignPermissionsUseCase.assignPermissions(id, request.getPermissions());
+
+        return ResponseEntity.noContent().build();
+    }
+
     @ExceptionHandler(Account.AccountNotFoundException.class)
     public ResponseEntity<String> handleNotFound(Account.AccountNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
@@ -78,5 +95,14 @@ public class ManageAccountUseCaseAdapter {
     @ExceptionHandler(Account.RoleNotFoundException.class)
     public ResponseEntity<String> handleRoleNotFound(Account.RoleNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(
+            IllegalArgumentException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
     }
 }

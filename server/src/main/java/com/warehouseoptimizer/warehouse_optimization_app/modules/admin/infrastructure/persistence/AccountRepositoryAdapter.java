@@ -36,6 +36,11 @@ public class AccountRepositoryAdapter implements AccountRepository {
     }
 
     @Override
+    public Optional<Account> findByUsername(String username) {
+        return jpaRepository.findByUsername(username).map(this::toDomain);
+    }
+
+    @Override
     public List<Account> findAll() {
         return jpaRepository.findAll().stream().map(this::toDomain).collect(Collectors.toList());
     }

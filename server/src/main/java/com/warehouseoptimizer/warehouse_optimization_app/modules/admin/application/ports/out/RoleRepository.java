@@ -4,4 +4,5 @@ import java.util.Optional;
 
 public interface RoleRepository {
     boolean existsById(Integer roleId);
+    Optional<String> findRoleNameById(Integer roleId);
 }

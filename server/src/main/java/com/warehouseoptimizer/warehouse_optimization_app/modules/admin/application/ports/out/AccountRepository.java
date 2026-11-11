@@ -9,5 +9,6 @@ public interface AccountRepository {
     Account save(Account account);
     Optional<Account> findById(Integer id);
     Optional<Account> findByEmail(String email);
+    Optional<Account> findByUsername(String username);
     List<Account> findAll();
 }
