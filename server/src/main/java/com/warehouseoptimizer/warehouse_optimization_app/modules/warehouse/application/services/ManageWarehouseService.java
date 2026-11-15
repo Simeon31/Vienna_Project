@@ -34,6 +34,12 @@ public class ManageWarehouseService implements ManageWarehouseUseCase {
     }
 
     @Override
+    public Warehouse getWarehouseById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new WarehouseNotFoundException(id));
+    }
+
+    @Override
     public Warehouse activateWarehouse(Long id) {
         return changeActiveStatus(id, true);
     }

@@ -1,0 +1,17 @@
+.chart {
+    display: block;
+    width: 100%;
+    max-width: 10rem;
+    height: auto;
+}
+
+.centerLabel {
+    font-size: 8px;
+    fill: var(--color-text-muted);
+}
+
+.centerValue {
+    font-size: 16px;
+    font-weight: 600;
+    fill: var(--color-text);
+}

@@ -1,0 +1,32 @@
+.breadcrumb {
+    margin-bottom: var(--space-2);
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8125rem;
+}
+
+.item + .item::before {
+    content: '>' / '';
+    margin: 0 var(--space-2);
+    color: var(--color-text-muted);
+}
+
+.link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.current {
+    font-weight: 600;
+    color: var(--color-text);
+}

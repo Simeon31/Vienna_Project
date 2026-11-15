@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @RestController
-@RequestMapping("/warehouses")
+@RequestMapping("/api/warehouses")
 public class ManageWarehouseUseCaseAdapter {
 
     private final ManageWarehouseUseCase manageWarehouseUseCase;
@@ -25,6 +25,11 @@ public class ManageWarehouseUseCaseAdapter {
         return manageWarehouseUseCase.getAllWarehouses().stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<WarehouseResponse> getWarehouseById(@PathVariable Long id) {
+        return ResponseEntity.ok(toResponse(manageWarehouseUseCase.getWarehouseById(id)));
     }
 
     @PostMapping

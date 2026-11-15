@@ -2,37 +2,42 @@ package com.warehouseoptimizer.warehouse_optimization_app.modules.inventory.doma
 
 public final class InventoryItem {
 
-    private final String sku;
+    private final Long productId;
     private final String warehouseId;
-    private final int onHand;
-    private final int reserved;
+    private final Demand demand;
+    private final StockLevel stock;
 
-    public InventoryItem(String sku, String warehouseId, int onHand, int reserved) {
-        if (sku == null || sku.isBlank() || warehouseId == null || warehouseId.isBlank()) {
-            throw new IllegalArgumentException("SKU and warehouse ID are required");
+    public InventoryItem(Long productId, String warehouseId, Float demandInUnits, int onHand, int reserved) {
+        if (productId == null || warehouseId == null || warehouseId.isBlank()) {
+            throw new IllegalArgumentException("Product ID and warehouse ID are required");
         }
-        if (onHand < 0 || reserved < 0 || reserved > onHand) {
-            throw new IllegalArgumentException("Stock must satisfy 0 <= reserved <= onHand");
-        }
-        this.sku = sku;
+        this.productId = productId;
         this.warehouseId = warehouseId;
-        this.onHand = onHand;
-        this.reserved = reserved;
-    }
-
-    public String sku() {
-        return sku;
+        this.demand = new Demand(demandInUnits);
+        this.stock = new StockLevel(onHand, reserved);
     }
 
     public String warehouseId() {
         return warehouseId;
     }
 
+    public Long productId() {
+        return productId;
+    }
+
+    public Float demandInUnits() {
+        return demand.units();
+    }
+
     public int onHand() {
-        return onHand;
+        return stock.onHand();
     }
 
     public int reserved() {
-        return reserved;
+        return stock.reserved();
+    }
+
+    public int availableQuantity() {
+        return stock.availableQuantity();
     }
 }
