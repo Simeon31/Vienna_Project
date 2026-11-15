@@ -1,17 +1,21 @@
 /** Decision state of an optimization run. */
 export type RunStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED';
 
-/** Whether the optimizer found a warehouse that can fully supply the order. */
-export type AssignmentResult = 'RECOMMENDED' | 'INSUFFICIENT';
-
-/** One line of the plan: which warehouse supplies which order. */
+/** One line of the plan: which warehouse supplies which order. Always the whole order. */
 export interface Assignment {
     orderId: string;
+    storeName: string;
     warehouseId: number;
     warehouseName: string;
-    coveragePercent: number;
-    cost: number;
-    result: AssignmentResult;
+    distanceKm: number;
+    transportCost: number;
+}
+
+/** An order that no warehouse can supply in this run. It stays pending for the next wave. */
+export interface UnmetOrder {
+    orderId: string;
+    storeName: string;
+    reason: string;
 }
 
 /** One optimization run over a wave of orders, waiting for a manager decision. */
@@ -24,4 +28,5 @@ export interface OptimizationRun {
     decidedAt: string | null;
     rejectionReason: string | null;
     assignments: Assignment[];
+    unmetOrders: UnmetOrder[];
 }

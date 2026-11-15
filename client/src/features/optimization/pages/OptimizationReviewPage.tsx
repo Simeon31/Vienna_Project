@@ -4,14 +4,15 @@ import StatCard from '../../../components/ui/StatCard';
 import Card from '../../../components/ui/Card';
 import Badge from '../../../components/ui/Badge';
 import AssignmentTable from '../components/AssignmentTable';
+import UnmetOrderTable from '../components/UnmetOrderTable';
 import { getLatestOptimizationRun } from '../api/optimizationApi';
 import {
     RUN_STATUS,
     formatEuro,
+    getOrderCount,
     getSavings,
     getSavingsPercent,
     getWarehouseCount,
-    isPlanValid,
 } from '../plan';
 import type { OptimizationRun } from '../types';
 import styles from './OptimizationReviewPage.module.css';
@@ -38,7 +39,7 @@ export default function OptimizationReviewPage() {
     }, []);
 
     const status = run ? RUN_STATUS[run.status] : null;
-    const valid = run ? isPlanValid(run) : false;
+    const unmetCount = run?.unmetOrders.length ?? 0;
 
     return (
         <>
@@ -60,7 +61,7 @@ export default function OptimizationReviewPage() {
             >
                 <StatCard
                     label="Orders in Wave"
-                    value={run ? run.assignments.length : '—'}
+                    value={run ? getOrderCount(run) : '—'}
                     hint={run ? `Run ${run.id}` : undefined}
                 />
                 <StatCard
@@ -78,13 +79,13 @@ export default function OptimizationReviewPage() {
                     }
                 />
                 <StatCard
-                    label="Stock & Capacity"
-                    value={run ? (valid ? 'Validated' : 'Check needed') : '—'}
+                    label="Not Fulfillable"
+                    value={run ? unmetCount : '—'}
                     hint={
                         run
-                            ? valid
-                                ? 'Every order fully covered'
-                                : 'Some orders are not fully covered'
+                            ? unmetCount > 0
+                                ? 'Stay pending for the next wave'
+                                : 'Every order can be supplied'
                             : undefined
                     }
                 />
@@ -103,11 +104,22 @@ export default function OptimizationReviewPage() {
                 {!error && !run && <p className={styles.message}>Loading…</p>}
 
                 {run && run.assignments.length === 0 && (
-                    <p className={styles.message}>This run contains no orders.</p>
+                    <p className={styles.message}>No order in this wave can be supplied.</p>
                 )}
 
                 {run && run.assignments.length > 0 && <AssignmentTable assignments={run.assignments} />}
             </Card>
+
+            {run && unmetCount > 0 && (
+                <div className={styles.section}>
+                    <Card
+                        title="Not Fulfillable"
+                        subtitle="These orders are not part of the plan and stay pending for the next wave."
+                    >
+                        <UnmetOrderTable unmetOrders={run.unmetOrders} />
+                    </Card>
+                </div>
+            )}
 
             {run?.status === 'PENDING' && (
                 <div className={styles.review} role="note">

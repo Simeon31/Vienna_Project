@@ -1,5 +1,5 @@
 import type { BadgeVariant } from '../../components/ui/Badge';
-import type { AssignmentResult, OptimizationRun, RunStatus } from './types';
+import type { OptimizationRun, RunStatus } from './types';
 
 /** Label and badge colour for each run status. */
 export const RUN_STATUS: Record<RunStatus, { label: string; variant: BadgeVariant }> = {
@@ -8,21 +8,27 @@ export const RUN_STATUS: Record<RunStatus, { label: string; variant: BadgeVarian
     REJECTED: { label: 'Rejected', variant: 'neutral' },
 };
 
-/** Label and badge colour for each assignment result. */
-export const ASSIGNMENT_RESULT: Record<AssignmentResult, { label: string; variant: BadgeVariant }> = {
-    RECOMMENDED: { label: 'Recommended', variant: 'success' },
-    INSUFFICIENT: { label: 'Insufficient', variant: 'danger' },
-};
-
 const euroFormat = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'EUR',
     maximumFractionDigits: 0,
 });
 
+const kmFormat = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 });
+
 /** Formats an amount as whole euros, e.g. "€1,250". */
 export function formatEuro(amount: number): string {
     return euroFormat.format(amount);
+}
+
+/** Formats a distance, e.g. "31 km" or "6.4 km". */
+export function formatKm(distance: number): string {
+    return `${kmFormat.format(distance)} km`;
+}
+
+/** All orders in the wave, assigned or not. */
+export function getOrderCount(run: OptimizationRun): number {
+    return run.assignments.length + run.unmetOrders.length;
 }
 
 /** How much the plan saves compared to the baseline strategy. */
@@ -40,12 +46,15 @@ export function getWarehouseCount(run: OptimizationRun): number {
     return new Set(run.assignments.map((assignment) => assignment.warehouseId)).size;
 }
 
-/** A plan can only be accepted if every order is fully covered by a recommended warehouse. */
-export function isPlanValid(run: OptimizationRun): boolean {
-    return (
-        run.assignments.length > 0 &&
-        run.assignments.every(
-            (assignment) => assignment.result === 'RECOMMENDED' && assignment.coveragePercent === 100,
-        )
-    );
+/**
+ * A plan can be accepted while it is pending and at least one order can be supplied.
+ * Orders that cannot be supplied stay pending for the next wave.
+ */
+export function canAccept(run: OptimizationRun): boolean {
+    return run.status === 'PENDING' && run.assignments.length > 0;
+}
+
+/** A plan can be rejected while it is pending, even if no order can be supplied. */
+export function canReject(run: OptimizationRun): boolean {
+    return run.status === 'PENDING';
 }

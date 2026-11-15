@@ -44,3 +44,7 @@
 .review strong {
     display: block;
 }
+
+.section {
+    margin-top: var(--space-4);
+}
