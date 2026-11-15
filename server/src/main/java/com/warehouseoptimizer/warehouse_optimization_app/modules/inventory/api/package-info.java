@@ -6,5 +6,5 @@
  * <p>Example: a planning module can query available units for a SKU in a warehouse.
  * This snapshot is informational; it does not reserve stock or guarantee a later allocation.
  */
-@org.springframework.modulith.NamedInterface("api")
+@org.springframework.modulith.ApplicationModule(displayName = "Inventory")
 package com.warehouseoptimizer.warehouse_optimization_app.modules.inventory.api;

@@ -13,7 +13,19 @@ public interface StoreEntityMapper {
     @Mapping(target = "city", expression = "java(store.city())")
     @Mapping(target = "warehouseId", expression = "java(store.warehouseId())")
     @Mapping(target = "capacityM3", expression = "java(store.capacityM3())")
+    @Mapping(target = "latitude", expression = "java(store.latitude())")
+    @Mapping(target = "longitude", expression = "java(store.longitude())")
     StoreEntity toEntity(Store store);
 
-    Store toDomain(StoreEntity entity);
+    default Store toDomain(StoreEntity entity) {
+        return new Store(
+                entity.getId(),
+                entity.getName(),
+                entity.getAddress(),
+                entity.getCity(),
+                entity.getWarehouseId(),
+                entity.getCapacityM3(),
+                entity.getLatitude(),
+                entity.getLongitude());
+    }
 }

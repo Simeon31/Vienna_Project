@@ -14,5 +14,7 @@ public interface StoreResponseMapper {
     @Mapping(target = "city", expression = "java(store.city())")
     @Mapping(target = "warehouseId", expression = "java(store.warehouseId())")
     @Mapping(target = "capacityM3", expression = "java(store.capacityM3())")
+    @Mapping(target = "latitude", expression = "java(store.latitude())")
+    @Mapping(target = "longitude", expression = "java(store.longitude())")
     StoreResponse toResponse(Store store);
 }
