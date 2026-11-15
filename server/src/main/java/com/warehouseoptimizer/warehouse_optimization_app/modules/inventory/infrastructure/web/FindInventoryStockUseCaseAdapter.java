@@ -23,6 +23,6 @@ public class FindInventoryStockUseCaseAdapter {
     public ResponseEntity<StockView> findStock(
             @PathVariable("warehouseId") String warehouseId,
             @PathVariable("sku") String sku) {
-        return ResponseEntity.of(findInventoryStockUseCase.findStock(sku, warehouseId));
+        return ResponseEntity.of(findInventoryStockUseCase.findStock(Long.valueOf(sku), warehouseId));
     }
 }

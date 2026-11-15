@@ -50,7 +50,9 @@ public class InventoryUseCaseRepositoryAdapter {
                 request.address(),
                 request.city(),
                 request.warehouseId(),
-                request.capacityM3()));
+                request.capacityM3(),
+                request.latitude(),
+                request.longitude()));
 
         return ResponseEntity
                 .created(ServletUriComponentsBuilder.fromCurrentRequest()

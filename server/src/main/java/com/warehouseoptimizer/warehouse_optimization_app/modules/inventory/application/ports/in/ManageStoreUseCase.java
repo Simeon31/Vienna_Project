@@ -7,7 +7,12 @@ import java.util.Optional;
 
 public interface ManageStoreUseCase {
 
-    Store createStore(String name, String address, String city, String warehouseId, double capacityM3);
+    Store createStore(String name, String address, String city, String warehouseId,
+                      double capacityM3, double latitude, double longitude);
+
+    default Store createStore(String name, String address, String city, String warehouseId, double capacityM3) {
+        return createStore(name, address, city, warehouseId, capacityM3, 0, 0);
+    }
 
     List<Store> getAllStores();
 

@@ -6,5 +6,7 @@ public record StoreResponse(
         String address,
         String city,
         String warehouseId,
-        double capacityM3) {
+        double capacityM3,
+        double latitude,
+        double longitude) {
 }
