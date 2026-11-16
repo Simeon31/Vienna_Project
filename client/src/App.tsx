@@ -7,6 +7,7 @@ import ShipmentsPage from './features/shipments/pages/ShipmentsPage';
 import AddWarehousePage from './features/warehouses/pages/AddWarehousePage';
 import EditWarehousePage from './features/warehouses/pages/EditWarehousePage';
 import WarehouseDetailPage from './features/warehouses/pages/WarehouseDetailPage';
+import OptimizationReviewPage from './features/optimization/pages/OptimizationReviewPage';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
               <Route path="warehouses/:id/edit" element={<EditWarehousePage />} />
             <Route path="inventory" element={<StorePage />} />
               <Route path="shipments" element={<ShipmentsPage />} />
+              <Route path="optimization" element={<OptimizationReviewPage />} />
             <Route path="*" element={<h1>Page not found</h1>} />
           </Route>
         </Routes>

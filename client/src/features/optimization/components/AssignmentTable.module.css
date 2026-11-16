@@ -1,0 +1,11 @@
+.order {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Numbers right-aligned with equal digit widths, so the columns line up */
+.number {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
