@@ -26,6 +26,13 @@ export function formatKm(distance: number): string {
     return `${kmFormat.format(distance)} km`;
 }
 
+const dateTimeFormat = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+
+/** Formats an ISO timestamp, e.g. "16 Nov 2026, 00:55". */
+export function formatDateTime(isoTimestamp: string): string {
+    return dateTimeFormat.format(new Date(isoTimestamp));
+}
+
 /** All orders in the wave, assigned or not. */
 export function getOrderCount(run: OptimizationRun): number {
     return run.assignments.length + run.unmetOrders.length;
