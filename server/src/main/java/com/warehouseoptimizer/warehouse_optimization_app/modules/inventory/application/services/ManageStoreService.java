@@ -18,8 +18,9 @@ public class ManageStoreService implements ManageStoreUseCase {
     }
 
     @Override
-    public Store createStore(String name, String address, String city, String warehouseId, double capacityM3) {
-        return repository.save(new Store(null, name, address, city, warehouseId, capacityM3));
+    public Store createStore(String name, String address, String city, String warehouseId,
+                             double capacityM3, double latitude, double longitude) {
+        return repository.save(new Store(null, name, address, city, warehouseId, capacityM3, latitude, longitude));
     }
 
     @Override

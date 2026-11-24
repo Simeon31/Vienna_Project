@@ -25,15 +25,24 @@ public class StoreEntity {
     @Column(name = "capacity_m3", nullable = false)
     private double capacityM3;
 
+    @Column(nullable = false)
+    private double latitude;
+
+    @Column(nullable = false)
+    private double longitude;
+
     protected StoreEntity() {
     }
 
-    public StoreEntity(String name, String address, String city, String warehouseId, double capacityM3) {
+    public StoreEntity(String name, String address, String city, String warehouseId, double capacityM3,
+                       double latitude, double longitude) {
         this.name = name;
         this.address = address;
         this.city = city;
         this.warehouseId = warehouseId;
         this.capacityM3 = capacityM3;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Long getId() { return id; }
@@ -43,4 +52,6 @@ public class StoreEntity {
     public String getCity() { return city; }
     public String getWarehouseId() { return warehouseId; }
     public double getCapacityM3() { return capacityM3; }
+    public double getLatitude() { return latitude; }
+    public double getLongitude() { return longitude; }
 }
